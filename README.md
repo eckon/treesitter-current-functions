@@ -16,6 +16,7 @@ Something to handle the output (like fzf) is needed
 # Usage
 
 Add `:lua require("treesitter-current-functions").get_current_functions()` as a mapping
+
 Get content like `echo luaeval('require("treesitter-current-functions").get_current_functions()')`
 
 It returns tables with the structure:
