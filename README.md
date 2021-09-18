@@ -7,6 +7,10 @@ This can be used to pipe it into fzf, telescope or anything else to quickly navi
 # Usage
 
 Add `:lua require("treesitter-selection").get_current_functions()` as a mapping
+Get content like `echo luaeval('require("treesitter-selection").get_current_functions()')`
+
+It returns tables with the structure:
+> `{ "line_number", "function_name", "line_content" }`
 
 
 # Development
