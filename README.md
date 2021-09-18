@@ -4,10 +4,19 @@ Plugin returns all functions of the current file.
 This can be used to pipe it into fzf, telescope or anything else to quickly navigate to it.
 
 
+# Install
+
+`Plug 'eckon/treesitter-current-functions'`
+
+Treesitter is needed
+
+Something to handle the output (like fzf) is needed
+
+
 # Usage
 
-Add `:lua require("treesitter-selection").get_current_functions()` as a mapping
-Get content like `echo luaeval('require("treesitter-selection").get_current_functions()')`
+Add `:lua require("treesitter-current-functions").get_current_functions()` as a mapping
+Get content like `echo luaeval('require("treesitter-current-functions").get_current_functions()')`
 
 It returns tables with the structure:
 > `{ "line_number", "function_name", "line_content" }`
@@ -16,7 +25,7 @@ It returns tables with the structure:
 # Development
 
 ```lua
--- lua package.loaded['treesitter-selection'] = nil; require("treesitter-selection").get_current_functions()
+-- lua package.loaded['treesitter-selection'] = nil; require("treesitter-current-functions").get_current_functions()
 -- help ts_utils
 -- help treesitter
 
