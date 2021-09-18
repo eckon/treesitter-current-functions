@@ -3,17 +3,6 @@ local parsers = require 'nvim-treesitter.parsers'
 
 local M = {}
 
--- debugging function for quick print of table
-local function table_print(table)
-  for index, value in ipairs(table) do
-    print(index, value)
-    for key, v in ipairs(value) do
-      print(key, v)
-    end
-  end
-end
-
-
 local function get_root()
   local bufnr = vim.fn.bufnr()
   local filetype = vim.bo[bufnr].filetype
@@ -81,7 +70,6 @@ M.get_current_functions = function()
 
   local content = get_function_list_of_parent(root)
 
-  table_print(content)
   return content
 end
 

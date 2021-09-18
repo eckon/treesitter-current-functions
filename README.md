@@ -10,15 +10,27 @@ Add `:lua require("treesitter-selection").get_current_functions()` as a mapping
 
 
 # Development
+
 ```lua
 -- lua package.loaded['treesitter-selection'] = nil; require("treesitter-selection").get_current_functions()
 -- help ts_utils
 -- help treesitter
---
--- local function get_line_information(node)
---   local bufnr = vim.fn.bufnr()
---   local start_row = node:start()
---   local line = vim.api.nvim_buf_get_lines(bufnr, start_row, start_row + 1, false)[1]
---   return line
--- end
+
+-- example to manually get lines
+local function get_line_information(node)
+  local bufnr = vim.fn.bufnr()
+  local start_row = node:start()
+  local line = vim.api.nvim_buf_get_lines(bufnr, start_row, start_row + 1, false)[1]
+  return line
+end
+
+-- debugging function for quick print of table
+local function table_print(table)
+  for index, value in ipairs(table) do
+    print(index, value)
+    for key, v in ipairs(value) do
+      print(key, v)
+    end
+  end
+end
 ```
