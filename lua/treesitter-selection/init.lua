@@ -14,6 +14,17 @@ local M = {}
 --   return line
 -- end
 
+-- debugging function for quick print of table
+local function table_print(table)
+  for index, value in ipairs(table) do
+    print(index, value)
+    for key, v in ipairs(value) do
+      print(key, v)
+    end
+  end
+end
+
+
 local function get_root()
   local bufnr = vim.fn.bufnr()
   local filetype = vim.bo[bufnr].filetype
@@ -22,45 +33,67 @@ local function get_root()
   return parser:parse()[1]:root()
 end
 
-local function iterate_over_parent(parent)
-  for tsnode in parent:iter_children() do
-    local is_function = tsnode:type() == "function_declaration" or
-      tsnode:type() == "function_definition" or
-      tsnode:type() == "local_function"
+local function get_node_information(node, name_index)
+  local line_content = ts_utils.get_node_text(node)[1]
+  local name_node = node:child(name_index)
+  local name = ts_utils.get_node_text(name_node)[1]
+  local row, _, _ = node:start()
+  -- zero indexed
+  row = row + 1
 
-    if is_function then
-      local line = ts_utils.get_node_text(tsnode)[1]
-      local name_node = tsnode:child(1)
-      local name = ts_utils.get_node_text(name_node)[1]
-      print(name, line)
+  return { row, name, line_content }
+end
+
+local function get_function_list_of_parent(parent)
+  local content = {}
+
+  for tsnode in parent:iter_children() do
+    if tsnode:type() == "function_declaration" or tsnode:type() == "function_definition" then
+      local info = get_node_information(tsnode, 1)
+      table.insert(content, info)
+    end
+
+
+    if tsnode:type() == "local_function" then
+      local info = get_node_information(tsnode, 2)
+      table.insert(content, info)
     end
 
     if tsnode:type() == "method_definition" then
-      local line = ts_utils.get_node_text(tsnode)[1]
-      local name_node = tsnode:child(0)
-      local name = ts_utils.get_node_text(name_node)[1]
-      print(name, line)
+      local info = get_node_information(tsnode, 0)
+      table.insert(content, info)
     end
 
     -- in case more functions might be inside of other structures
     if tsnode:type() == "class_declaration" then
       local class_name_node = tsnode:child(1)
       local class_name = ts_utils.get_node_text(class_name_node)[1]
-      print(class_name)
+
       -- get the class body of the class
       -- this might contain functions (methods)
-      iterate_over_parent(tsnode:child(2))
+      local info = get_function_list_of_parent(tsnode:child(2))
+
+      for _, node_information in ipairs(info) do
+        -- append class infront of methods
+        node_information[2] = class_name .. ": " .. node_information[2]
+        table.insert(content, node_information)
+      end
     end
   end
+
+  return content
 end
 
-M.select = function()
+M.get_current_functions = function()
   local root = get_root()
   if root == nil then
     error("No Tressitter parser found")
   end
 
-  iterate_over_parent(root)
+  local content = get_function_list_of_parent(root)
+
+  table_print(content)
+  return content
 end
 
 return M
