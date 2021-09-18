@@ -3,17 +3,6 @@ local parsers = require 'nvim-treesitter.parsers'
 
 local M = {}
 
--- lua package.loaded['treesitter-selection'] = nil; require("treesitter-selection").select()
--- help ts_utils
--- help treesitter
---
--- local function get_line_information(node)
---   local bufnr = vim.fn.bufnr()
---   local start_row = node:start()
---   local line = vim.api.nvim_buf_get_lines(bufnr, start_row, start_row + 1, false)[1]
---   return line
--- end
-
 -- debugging function for quick print of table
 local function table_print(table)
   for index, value in ipairs(table) do
