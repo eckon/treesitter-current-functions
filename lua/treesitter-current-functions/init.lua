@@ -53,7 +53,7 @@ local function get_function_list_of_parent(parent)
 
       for _, node_information in ipairs(info) do
         -- append class infront of methods
-        node_information[2] = class_name .. ": " .. node_information[2]
+        node_information[2] = class_name .. " > " .. node_information[2]
         table.insert(content, node_information)
       end
     end
