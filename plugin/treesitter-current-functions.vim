@@ -2,6 +2,9 @@ if exists('g:loaded_treesitter_current_functions')
   finish
 endif
 
+" quick debugging (resets the lua cache)
+" lua package.loaded['treesitter-current-functions'] = nil
+
 function! s:function_sink(line)
   let parts = split(a:line, ':\t')
 
