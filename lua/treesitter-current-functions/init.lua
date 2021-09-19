@@ -31,7 +31,6 @@ local function get_function_list_of_parent(parent)
       table.insert(content, info)
     end
 
-
     if tsnode:type() == "local_function" then
       local info = get_node_information(tsnode, 2)
       table.insert(content, info)
@@ -40,6 +39,14 @@ local function get_function_list_of_parent(parent)
     if tsnode:type() == "method_definition" then
       local info = get_node_information(tsnode, 0)
       table.insert(content, info)
+    end
+
+    if tsnode:type() == "export_statement" then
+      local info = get_function_list_of_parent(tsnode)
+
+      for _, node_information in ipairs(info) do
+        table.insert(content, node_information)
+      end
     end
 
     -- in case more functions might be inside of other structures
