@@ -1,19 +1,42 @@
 # Information
 
-Plugin returns all functions of the current file.
-This can be used to pipe it into fzf, telescope or anything else to quickly navigate to it.
+* Show all functions in the current scope.
+* Open a fuzzy finder or any other selection tool to jump to that place
+
+This plugin was intended to just return a table with needed information about the current file.
+Meaning that it should be possible to add whatever plugin that can handle text input (fzf, telescope, manual, etc.).
+
+
+# Disclaimer
+
+The plugin is by far not done and not tested, I am just starting with lua, vim and treesitter, which is why it will break
+not work as expected or show wrong results.
+
+The plugin should not be able to do destructive work, the only things that can happen is, that it shows wrong information or jump to wrong places.
 
 
 # Install
 
-`Plug 'eckon/treesitter-current-functions'`
-
-Treesitter is needed
-
-Something to handle the output (like fzf) is needed
+* `Plug 'eckon/treesitter-current-functions'`
+* Treesitter is needed
+* Something to handle the output (like fzf) is needed
+  * Currently only fzf is supported
+  * In general the output can be used by other software as well, just a wrapper needs to be added (look at plugin folder)
 
 
 # Usage
+
+Either use the map or run the command
+```vim
+nmap <Leader>foo <Plug>TreesitterCurrentFunctions
+
+nnoremap <Leader>foo <CMD>GetCurrentFunctions<CR>
+```
+
+
+# Usage for other tools
+
+See plugin folder
 
 Add `:lua require("treesitter-current-functions").get_current_functions()` as a mapping
 
@@ -24,6 +47,10 @@ It returns tables with the structure:
 
 
 # Development
+
+For removing cached lua code, run `lua package.loaded['treesitter-current-functions'] = nil`
+
+For removing cached vim code, comment out the `finish` part in the plugin file.
 
 ```lua
 -- lua package.loaded['treesitter-current-functions'] = nil; require("treesitter-current-functions").get_current_functions()
