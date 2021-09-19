@@ -52,6 +52,13 @@ For removing cached lua code, run `lua package.loaded['treesitter-current-functi
 
 For removing cached vim code, comment out the `finish` part in the plugin file.
 
+Both can be just added to the vim file in folder (meaning the lua part added and the finish part commented out).
+After that the plugin can be easily update with a place where is sources it being sources.
+
+Example:
+* in init.vim: the plugin is installed via direct path
+* then run `:so ~/.config/nvim/init.vim | GetCurrentFunctions`
+
 ```lua
 -- lua package.loaded['treesitter-current-functions'] = nil; require("treesitter-current-functions").get_current_functions()
 -- help ts_utils
