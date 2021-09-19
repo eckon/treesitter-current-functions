@@ -41,6 +41,11 @@ local function get_function_list_of_parent(parent)
       table.insert(content, info)
     end
 
+    if tsnode:type() == "method_declaration" then
+      local info = get_node_information(tsnode, 0)
+      table.insert(content, info)
+    end
+
     if tsnode:type() == "export_statement" then
       local info = get_function_list_of_parent(tsnode)
 
