@@ -51,6 +51,7 @@ Get content like `echo luaeval('require("treesitter-current-functions").get_curr
 
 It returns tables with the structure:
 > `{{ "line_number", "line_content" }, ...}`
+
 When calling it into vim via `luaeval` this will return in the current structure:
 > `[[ "line_number", "line_content" ], ...]`
 
