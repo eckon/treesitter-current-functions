@@ -24,22 +24,14 @@ local function get_function_list_of_parent(parent)
   local content = {}
 
   for tsnode in parent:iter_children() do
-    if tsnode:type() == "function_declaration" or tsnode:type() == "function_definition" then
-      local info = get_node_information(tsnode)
-      table.insert(content, info)
-    end
+    local is_simple_function =
+      tsnode:type() == "function_declaration" or
+      tsnode:type() == "function_definition" or
+      tsnode:type() == "local_function" or
+      tsnode:type() == "method_definition" or
+      tsnode:type() == "method_declaration"
 
-    if tsnode:type() == "local_function" then
-      local info = get_node_information(tsnode)
-      table.insert(content, info)
-    end
-
-    if tsnode:type() == "method_definition" then
-      local info = get_node_information(tsnode)
-      table.insert(content, info)
-    end
-
-    if tsnode:type() == "method_declaration" then
+    if is_simple_function then
       local info = get_node_information(tsnode)
       table.insert(content, info)
     end
