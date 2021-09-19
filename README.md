@@ -26,7 +26,7 @@ It returns tables with the structure:
 # Development
 
 ```lua
--- lua package.loaded['treesitter-selection'] = nil; require("treesitter-current-functions").get_current_functions()
+-- lua package.loaded['treesitter-current-functions'] = nil; require("treesitter-current-functions").get_current_functions()
 -- help ts_utils
 -- help treesitter
 
