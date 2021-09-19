@@ -9,22 +9,29 @@ Meaning that it should be possible to add whatever plugin that can handle text i
 
 # Disclaimer
 
-The plugin is by far not done and not tested, I am just starting with lua, vim and treesitter, which is why it will break
+The plugin is by far not done and not tested, I am just starting with lua, vimscript and treesitter, which is why it will break,
 not work as expected or show wrong results.
+
+Not all languages are tested (by far) and not all ways of declaring functions are implemented.
+I mainly added ways that I most likely will face.
 
 The plugin should not be able to do destructive work, the only things that can happen is, that it shows wrong information or jump to wrong places.
 
 
-# Install
+# Usage
+
+## Example
+
+![Example Usage of treesitter-current-functions](./treesitter-current-functions-example.gif)
+
+
+## Install
 
 * `Plug 'eckon/treesitter-current-functions'`
 * Treesitter is needed
 * Something to handle the output (like fzf) is needed
   * Currently only fzf is supported
   * In general the output can be used by other software as well, just a wrapper needs to be added (look at plugin folder)
-
-
-# Usage
 
 Either use the map or run the command
 ```vim
@@ -34,7 +41,7 @@ nnoremap <Leader>foo <CMD>GetCurrentFunctions<CR>
 ```
 
 
-# Usage for other tools
+## Usage for other tools
 
 See plugin folder
 
@@ -43,7 +50,9 @@ Add `:lua require("treesitter-current-functions").get_current_functions()` as a 
 Get content like `echo luaeval('require("treesitter-current-functions").get_current_functions()')`
 
 It returns tables with the structure:
-> `{ "line_number", "line_content" }`
+> `{{ "line_number", "line_content" }, ...}`
+When calling it into vim via `luaeval` this will return in the current structure:
+> `[[ "line_number", "line_content" ], ...]`
 
 
 # Development
