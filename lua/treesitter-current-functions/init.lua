@@ -11,15 +11,13 @@ local function get_root()
   return parser:parse()[1]:root()
 end
 
-local function get_node_information(node, name_index)
+local function get_node_information(node)
   local line_content = ts_utils.get_node_text(node)[1]
-  local name_node = node:child(name_index)
-  local name = ts_utils.get_node_text(name_node)[1]
   local row, _, _ = node:start()
   -- zero indexed
-  row = row + 1
+  local line_number = row + 1
 
-  return { row, name, line_content }
+  return { line_number, line_content }
 end
 
 local function get_function_list_of_parent(parent)
@@ -27,22 +25,22 @@ local function get_function_list_of_parent(parent)
 
   for tsnode in parent:iter_children() do
     if tsnode:type() == "function_declaration" or tsnode:type() == "function_definition" then
-      local info = get_node_information(tsnode, 1)
+      local info = get_node_information(tsnode)
       table.insert(content, info)
     end
 
     if tsnode:type() == "local_function" then
-      local info = get_node_information(tsnode, 2)
+      local info = get_node_information(tsnode)
       table.insert(content, info)
     end
 
     if tsnode:type() == "method_definition" then
-      local info = get_node_information(tsnode, 0)
+      local info = get_node_information(tsnode)
       table.insert(content, info)
     end
 
     if tsnode:type() == "method_declaration" then
-      local info = get_node_information(tsnode, 0)
+      local info = get_node_information(tsnode)
       table.insert(content, info)
     end
 
@@ -61,7 +59,7 @@ local function get_function_list_of_parent(parent)
         local function_node = child:child(2)
 
         if function_node:type() == "arrow_function" then
-          local info = get_node_information(child, 0)
+          local info = get_node_information(child)
           table.insert(content, info)
         end
       end
