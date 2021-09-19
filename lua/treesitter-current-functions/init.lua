@@ -49,6 +49,19 @@ local function get_function_list_of_parent(parent)
       end
     end
 
+    if tsnode:type() == "lexical_declaration" then
+      local child = tsnode:child(1)
+
+      if child:type() == "variable_declarator" then
+        local function_node = child:child(2)
+
+        if function_node:type() == "arrow_function" then
+          local info = get_node_information(child, 0)
+          table.insert(content, info)
+        end
+      end
+    end
+
     -- in case more functions might be inside of other structures
     if tsnode:type() == "class_declaration" then
       local class_name_node = tsnode:child(1)
