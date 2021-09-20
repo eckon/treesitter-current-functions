@@ -75,12 +75,15 @@ Example:
 -- help ts_utils
 -- help treesitter
 
--- example to manually get lines
-local function get_line_information(node)
+-- similar to ts_utils.get_node_text
+-- will return the name of the node itself
+local function get_node_content(node)
   local bufnr = vim.fn.bufnr()
-  local start_row = node:start()
-  local line = vim.api.nvim_buf_get_lines(bufnr, start_row, start_row + 1, false)[1]
-  return line
+  local start_row, start_column, end_row, end_column = node:range()
+  local full_line = vim.api.nvim_buf_get_lines(bufnr, start_row, start_row + 1, false)[1]
+  local content = full_line:sub(start_column, end_column)
+
+  return content
 end
 
 -- debugging function for quick print of table
