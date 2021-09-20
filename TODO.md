@@ -8,3 +8,5 @@
     * foo["bar"]
 * parse the content of the file or the range and let the fuzzy finder display it as a preview
 * use the parameter (function is already implemented) in the fuzzy output
+* add testing part
+  * put files, check if result is correct (without fuzzy finder ofc)
