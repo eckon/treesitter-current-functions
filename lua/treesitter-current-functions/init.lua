@@ -122,6 +122,23 @@ local function get_function_list_of_parent(parent)
   return content
 end
 
+local function filter_exact_table_match(data)
+  local result = {}
+  local tmp_table = {}
+
+  -- remove tables that have the exact same structure
+  -- mainly for php, that might have multiple "<?php" entries
+  for _, t in ipairs(data) do
+    local is_same_table = t[1] == tmp_table[1] and t[2] == tmp_table[2]
+    if not is_same_table then
+      table.insert(result, t)
+    end
+    tmp_table = t
+  end
+
+  return result
+end
+
 M.get_current_functions = function()
   local root = get_root()
   if root == nil then
@@ -129,8 +146,12 @@ M.get_current_functions = function()
   end
 
   local content = get_function_list_of_parent(root)
+  -- sort content, it could have different order
+  table.sort(content, function(a, b) return a[1] < b[1] end)
 
-  return content
+  local result = filter_exact_table_match(content)
+
+  return result
 end
 
 return M
