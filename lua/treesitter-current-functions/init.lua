@@ -8,21 +8,23 @@ local function get_root()
   return parser:parse()[1]:root()
 end
 
-local function get_node_information(node)
-  local line_content = ts_utils.get_node_text(node)[1]
-  local row, _, _ = node:start()
-  -- zero indexed
-  local line_number = row + 1
-
-  return { line_number, line_content }
-end
-
 local function get_named_node(parent, named)
   for node, name in parent:iter_children() do
     if name == named then
       return node
     end
   end
+end
+
+local function get_node_information(node)
+  local line_content = ts_utils.get_node_text(node)[1]
+  local function_node = get_named_node(node, "name")
+  local function_name = ts_utils.get_node_text(function_node)[1]
+  local row, _, _ = node:start()
+  -- zero indexed
+  local line_number = row + 1
+
+  return { line_number, function_name, line_content }
 end
 
 local function get_function_list_of_parent(parent)

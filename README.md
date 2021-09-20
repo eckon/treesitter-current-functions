@@ -51,10 +51,10 @@ Add `:lua require("treesitter-current-functions").get_current_functions()` as a 
 Get content like `echo luaeval('require("treesitter-current-functions").get_current_functions()')`
 
 It returns tables with the structure:
-> `{{ "line_number", "line_content" }, ...}`
+> `{{ "line_number", "function_name", "line_content" }, ...}`
 
 When calling it into vim via `luaeval` this will return in the current structure:
-> `[[ "line_number", "line_content" ], ...]`
+> `[[ "line_number", "function_name", "line_content" ], ...]`
 
 
 # Development

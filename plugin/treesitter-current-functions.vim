@@ -21,8 +21,9 @@ function! s:function_lines()
 
   for node_information in output
     let line_number = node_information[0]
-    let line_content = node_information[1]
-    call extend(res, [line_number . ":\t" . line_content])
+    let function_name = node_information[1]
+    let line_content = node_information[2]
+    call extend(res, [line_number . ":\t" . function_name])
   endfor
 
   return res
