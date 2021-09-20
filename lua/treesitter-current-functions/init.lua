@@ -4,10 +4,7 @@ local parsers = require 'nvim-treesitter.parsers'
 local M = {}
 
 local function get_root()
-  local bufnr = vim.fn.bufnr()
-  local filetype = vim.bo[bufnr].filetype
-
-  local parser = parsers.get_parser(bufnr or 0, filetype)
+  local parser = parsers.get_parser()
   return parser:parse()[1]:root()
 end
 
