@@ -53,6 +53,10 @@ end
 local function get_function_list_of_parent(parent)
   local content = {}
 
+  if parent == nil then
+    return content
+  end
+
   for tsnode in parent:iter_children() do
     -- standard ways of declaring/defining functions
     local is_simple_function =
