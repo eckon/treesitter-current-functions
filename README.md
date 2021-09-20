@@ -1,7 +1,7 @@
 # Information
 
-Neovim plugin that builds ontop of treesitter to:
-* Show all functions in the current scope
+Neovim plugin that builds on top of treesitter to:
+* Show all functions in the current buffer
 * Open a fuzzy finder or any other selection tool to jump to that function line
 
 This plugin was intended to just return a table with needed information about the current file.
@@ -28,9 +28,10 @@ The plugin should not be able to do destructive work, the only things that can h
 
 ## Install
 
-* `Plug 'eckon/treesitter-current-functions'`
-* Treesitter is needed
-* Something to handle the output (like fzf) is needed
+* Install this repo with your favourite plugin manager
+  * Example vim-plug: `Plug 'eckon/treesitter-current-functions'`
+* [Treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+* Something to handle output (like fzf)
   * Currently only fzf is supported
   * In general the output can be used by other software as well, just a wrapper needs to be added (look at plugin folder)
 
