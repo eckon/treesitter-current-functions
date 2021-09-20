@@ -1,10 +1,11 @@
 # Information
 
-* Show all functions in the current scope.
-* Open a fuzzy finder or any other selection tool to jump to that place
+Neovim plugin that builds ontop of treesitter to:
+* Show all functions in the current scope
+* Open a fuzzy finder or any other selection tool to jump to that function line
 
 This plugin was intended to just return a table with needed information about the current file.
-Meaning that it should be possible to add whatever plugin that can handle text input (fzf, telescope, manual, etc.).
+Meaning that it is easily possible to add whatever plugin that can handle text input (fzf, telescope, manual, etc.).
 
 
 # Disclaimer
