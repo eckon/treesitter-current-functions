@@ -67,20 +67,22 @@ local function get_function_list_of_parent(parent)
       table.insert(content, info)
     end
 
-    -- functions that have valuable information in the parent (arrow function, assigned variables)
-    --   TO-NOW: func def can be in different parts (simple and parent dependend)
-    --           lua (parent dependend) php (simple)
-    --           results in some things shown which are not needed
-    --           alternative is to show some sometimes incorrect which I dont like
-    --           so added them redundantly
+    -- some functions might have the information in their parent (assigned variables)
     local is_parent_dependend_function =
-      tsnode:type() == "arrow_function" or
-      tsnode:type() == "function_definition"
+      tsnode:type() == "function_definition" or
+      tsnode:type() == "arrow_function"
 
     if is_parent_dependend_function then
       -- we want to name of the variable that it was assigned to -> parent
-      local info = get_node_information(tsnode:parent())
-      table.insert(content, info)
+      -- if it has valuable information
+      local parent_has_information =
+        tsnode:parent():type() == "variable_declarator" or
+        tsnode:parent():type() == "variable_declaration"
+
+      if parent_has_information then
+        local info = get_node_information(tsnode:parent())
+        table.insert(content, info)
+      end
     end
 
     -- these structures might include functions (arrow function, variable as function, classes, etc)
