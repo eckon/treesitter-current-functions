@@ -1,4 +1,7 @@
-function x() {  }
+function x(
+  a,
+  b
+) {  }
 
 function z() {  }
 
