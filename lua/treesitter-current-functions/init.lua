@@ -60,7 +60,8 @@ local function get_function_list_of_parent(parent)
       tsnode:type() == "function_definition" or
       tsnode:type() == "local_function" or
       tsnode:type() == "method_definition" or
-      tsnode:type() == "method_declaration"
+      tsnode:type() == "method_declaration" or
+      tsnode:type() == "constructor_declaration"
 
     if is_simple_function then
       local info = get_node_information(tsnode)
