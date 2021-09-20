@@ -67,6 +67,16 @@ local function get_function_list_of_parent(parent)
       end
     end
 
+    -- a namespace might have multiple functions
+    if tsnode:type() == "namespace_declaration" then
+      local body = get_named_node(tsnode, "body")
+      local info = get_function_list_of_parent(body)
+
+      for _, node_information in ipairs(info) do
+        table.insert(content, node_information)
+      end
+    end
+
     -- a class might have multiple functions
     if tsnode:type() == "class_declaration" then
       local class_name_node = get_named_node(tsnode, "name")
