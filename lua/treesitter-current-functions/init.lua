@@ -18,8 +18,10 @@ end
 
 local function get_node_information(node)
   local line_content = ts_utils.get_node_text(node)[1]
-  local function_node = get_named_node(node, "name")
-  local function_name = ts_utils.get_node_text(function_node)[1]
+
+  local function_name_node = get_named_node(node, "name")
+  local function_name = ts_utils.get_node_text(function_name_node)[1]
+
   local row, _, _ = node:start()
   -- zero indexed
   local line_number = row + 1
