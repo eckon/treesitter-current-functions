@@ -54,7 +54,7 @@ local function get_function_list_of_parent(parent)
   local content = {}
 
   for tsnode in parent:iter_children() do
-
+    -- standard ways of declaring/defining functions
     local is_simple_function =
       tsnode:type() == "function_declaration" or
       tsnode:type() == "function_definition" or
@@ -62,15 +62,35 @@ local function get_function_list_of_parent(parent)
       tsnode:type() == "method_definition" or
       tsnode:type() == "method_declaration"
 
-    -- standard ways of declaring/defining functions
     if is_simple_function then
       local info = get_node_information(tsnode)
       table.insert(content, info)
     end
 
-    -- export might be used to export class/namespace/variables
-    -- which include or are functions in itself
-    if tsnode:type() == "export_statement" then
+    -- functions that have valuable information in the parent (arrow function, assigned variables)
+    --   TO-NOW: func def can be in different parts (simple and parent dependend)
+    --           lua (parent dependend) php (simple)
+    --           results in some things shown which are not needed
+    --           alternative is to show some sometimes incorrect which I dont like
+    --           so added them redundantly
+    local is_parent_dependend_function =
+      tsnode:type() == "arrow_function" or
+      tsnode:type() == "function_definition"
+
+    if is_parent_dependend_function then
+      -- we want to name of the variable that it was assigned to -> parent
+      local info = get_node_information(tsnode:parent())
+      table.insert(content, info)
+    end
+
+    -- these structures might include functions (arrow function, variable as function, classes, etc)
+    local is_simple_recursive_strucute =
+      tsnode:type() == "export_statement" or
+      tsnode:type() == "variable_declarator" or
+      tsnode:type() == "variable_declaration" or
+      tsnode:type() == "lexical_declaration"
+
+    if is_simple_recursive_strucute then
       local info = get_function_list_of_parent(tsnode)
 
       for _, node_information in ipairs(info) do
@@ -78,43 +98,22 @@ local function get_function_list_of_parent(parent)
       end
     end
 
-    -- a lexical declartion can assign a function to a value
-    if tsnode:type() == "lexical_declaration" then
-      local child = tsnode:child(1)
+    -- structure that most likely have multiple functions internally
+    local is_complex_recursive_structure =
+      tsnode:type() == "class_declaration" or
+      tsnode:type() == "namespace_declaration"
 
-      if child:type() == "variable_declarator" then
-        local function_node = get_named_node(child, "value")
+    if is_complex_recursive_structure then
+      local structure_name_node = get_named_node(tsnode, "name")
+      local structure_name = ts_utils.get_node_text(structure_name_node)[1]
 
-        if function_node:type() == "arrow_function" then
-          local info = get_node_information(child)
-          table.insert(content, info)
-        end
-      end
-    end
-
-    -- a namespace might have multiple functions
-    if tsnode:type() == "namespace_declaration" then
+      -- body this might contain functions (methods)
       local body = get_named_node(tsnode, "body")
       local info = get_function_list_of_parent(body)
 
       for _, node_information in ipairs(info) do
-        table.insert(content, node_information)
-      end
-    end
-
-    -- a class might have multiple functions
-    if tsnode:type() == "class_declaration" then
-      local class_name_node = get_named_node(tsnode, "name")
-      local class_name = ts_utils.get_node_text(class_name_node)[1]
-
-      -- get the class body of the class
-      -- this might contain functions (methods)
-      local body = get_named_node(tsnode, "body")
-      local info = get_function_list_of_parent(body)
-
-      for _, node_information in ipairs(info) do
-        -- append class infront of methods
-        node_information[2] = class_name .. " > " .. node_information[2]
+        -- append structure name infront of methods (or other structures)
+        node_information[2] = structure_name .. " > " .. node_information[2]
         table.insert(content, node_information)
       end
     end
