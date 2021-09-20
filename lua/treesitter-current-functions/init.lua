@@ -91,13 +91,13 @@ local function get_function_list_of_parent(parent)
     end
 
     -- these structures might include functions (arrow function, variable as function, classes, etc)
-    local is_simple_recursive_strucute =
+    local is_simple_recursive_structure =
       tsnode:type() == "export_statement" or
       tsnode:type() == "variable_declarator" or
       tsnode:type() == "variable_declaration" or
       tsnode:type() == "lexical_declaration"
 
-    if is_simple_recursive_strucute then
+    if is_simple_recursive_structure then
       local info = get_function_list_of_parent(tsnode)
 
       for _, node_information in ipairs(info) do
