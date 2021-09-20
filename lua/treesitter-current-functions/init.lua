@@ -36,16 +36,18 @@ local function get_function_node_parameter_string(function_node)
 end
 
 local function get_node_information(node)
-  local line_content = ts_utils.get_node_text(node)[1]
-
   local function_name_node = get_named_node(node, "name")
   local function_name = ts_utils.get_node_text(function_name_node)[1]
+  -- as fallback in case named node does not exist
+  local line_content = ts_utils.get_node_text(node)[1]
+  -- return line content in case we have no name (happens if there is no named node)
+  function_name = function_name or line_content
 
-  local row, _, _ = node:start()
   -- zero indexed
+  local row, _, _ = node:start()
   local line_number = row + 1
 
-  return { line_number, function_name, line_content }
+  return { line_number, function_name }
 end
 
 local function get_function_list_of_parent(parent)
