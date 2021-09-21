@@ -29,8 +29,6 @@ function! s:function_lines()
 endfunction
 
 function! g:Get_current_functions()
-  let output = luaeval('require("treesitter-current-functions").get_current_functions()')
-
   call fzf#run(fzf#wrap({
     \ 'source': s:function_lines(),
     \ 'options': ['--prompt', 'Functions> ', '--layout=reverse-list'],
