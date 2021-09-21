@@ -5,7 +5,7 @@ endif
 " quick debugging (resets the lua cache)
 " lua package.loaded['treesitter-current-functions'] = nil
 
-function! s:function_sink(line)
+function! s:function_sink(line) abort
   let parts = split(a:line, ':\t')
 
   " jump to the given line
@@ -15,7 +15,7 @@ function! s:function_sink(line)
   normal zz_
 endfunction
 
-function! s:function_lines()
+function! s:function_lines() abort
   let res = []
   let output = luaeval('require("treesitter-current-functions").get_current_functions()')
 
@@ -28,7 +28,7 @@ function! s:function_lines()
   return res
 endfunction
 
-function! g:Get_current_functions()
+function! g:Get_current_functions() abort
   call fzf#run(fzf#wrap({
     \ 'source': s:function_lines(),
     \ 'options': ['--prompt', 'Functions> ', '--layout=reverse-list'],
