@@ -5,6 +5,10 @@ local M = {}
 
 local function get_root()
   local parser = parsers.get_parser()
+  if parser == nil then
+    return nil
+  end
+
   return parser:parse()[1]:root()
 end
 
