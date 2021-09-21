@@ -17,25 +17,12 @@ function! s:function_sink(line) abort
   normal zz_
 endfunction
 
-function! s:function_lines() abort
-  let res = []
-  let output = luaeval('require("treesitter-current-functions").get_current_functions()')
-
-  for node_information in output
-    let line_number = node_information[0]
-    let function_name = node_information[1]
-    call extend(res, [line_number . ":\t" . function_name])
-  endfor
-
-  return res
-endfunction
-
-function! g:Get_current_functions() abort
-  let output = s:function_lines()
+function! s:current_functions_with_fzf() abort
+  let output = luaeval('require("treesitter-current-functions").get_current_functions_formatted()')
 
   " check if there is any function in current buffer, if not notify user
   if output == []
-    echo "No function found in the current buffer"
+    echo 'No function found in the current buffer'
     return
   endif
 
@@ -46,6 +33,24 @@ function! g:Get_current_functions() abort
     \ }))
 endfunction
 
+
+" general execution of the plugin
+function! g:Get_current_functions() abort
+  let fzf_exists = exists('g:loaded_fzf_vim')
+  let telescope_exists = exists('g:loaded_telescope')
+
+  if fzf_exists
+    call s:current_functions_with_fzf()
+  elseif telescope_exists
+    lua require("treesitter-current-functions.selector.telescope").init()
+  else
+    echo "No fuzzy finder was found (fzf, telescope)"
+    echo "Add your own (see plugin folder) or add an issue to add others"
+  endif
+endfunction
+
+
+" Maps/Commands for end user
 nnoremap <silent> <Plug>TreesitterCurrentFunctions
       \ :<c-u>call g:Get_current_functions()<CR>
 
