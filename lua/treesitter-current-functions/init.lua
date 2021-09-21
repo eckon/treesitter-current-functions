@@ -147,4 +147,20 @@ M.get_current_functions = function()
   return content
 end
 
+M.get_current_functions_formatted = function()
+  local res = {}
+  local output = M.get_current_functions()
+
+  -- every entry will be concatted into a string
+  -- result: {"line_number:\t function", "123:\t foo", ...}
+  for _, node_information in ipairs(output) do
+    local line_number = node_information[1]
+    local function_name = node_information[2]
+    local concatted_string = line_number .. ":\t" .. function_name
+    table.insert(res, concatted_string)
+  end
+
+  return res
+end
+
 return M
