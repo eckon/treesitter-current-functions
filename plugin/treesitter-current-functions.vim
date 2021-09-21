@@ -6,7 +6,10 @@ let g:loaded_treesitter_current_functions = 1
 
 " quick debugging (resets the lua cache)
 " lua package.loaded['treesitter-current-functions'] = nil
+" lua package.loaded['treesitter-current-functions.selector.telescope'] = nil
 
+
+" FZF implementation
 function! s:function_sink(line) abort
   let parts = split(a:line, ':\t')
 
