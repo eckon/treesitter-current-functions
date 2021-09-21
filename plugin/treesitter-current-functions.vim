@@ -29,8 +29,16 @@ function! s:function_lines() abort
 endfunction
 
 function! g:Get_current_functions() abort
+  let output = s:function_lines()
+
+  " check if there is any function in current buffer, if not notify user
+  if output == []
+    echo "No function found in the current buffer"
+    return
+  endif
+
   call fzf#run(fzf#wrap({
-    \ 'source': s:function_lines(),
+    \ 'source': output,
     \ 'options': ['--prompt', 'Functions> ', '--layout=reverse-list'],
     \ 'sink': function('s:function_sink'),
     \ }))
