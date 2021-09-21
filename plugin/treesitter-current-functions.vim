@@ -2,6 +2,8 @@ if exists('g:loaded_treesitter_current_functions')
   finish
 endif
 
+let g:loaded_treesitter_current_functions = 1
+
 " quick debugging (resets the lua cache)
 " lua package.loaded['treesitter-current-functions'] = nil
 
@@ -48,5 +50,3 @@ nnoremap <silent> <Plug>TreesitterCurrentFunctions
       \ :<c-u>call g:Get_current_functions()<CR>
 
 command! GetCurrentFunctions call g:Get_current_functions()
-
-let g:loaded_treesitter_current_functions = 1
