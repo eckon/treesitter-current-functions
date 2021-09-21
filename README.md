@@ -4,7 +4,7 @@ Neovim plugin that builds on top of treesitter to:
 * Show all functions in the current buffer
 * Open a fuzzy finder or any other selection tool to jump to that function line
   * Currently `FZF` or `Telescope`
-  * Extension is easily doable (see further down)
+  * Extension is easily doable ([see further down at development](#development))
 
 
 # Disclaimer
@@ -30,47 +30,54 @@ The plugin should not be able to do destructive work, the only things that can h
 ## Install
 
 * Install this repo with your favourite plugin manager
-  * Example vim-plug: `Plug 'eckon/treesitter-current-functions'`
+  * `Plug 'eckon/treesitter-current-functions'`
 * [Treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 * Selection tool (only one is needed)
   * [fzf](https://github.com/junegunn/fzf.vim)
   * [telescope](https://github.com/nvim-telescope/telescope.nvim)
 
-Either use the map or run the command
+Quickly call the plugin, without any mappings:
 ```vim
-nmap <Leader>cf <Plug>TreesitterCurrentFunctions
-
-nnoremap <Leader>cf <CMD>GetCurrentFunctions<CR>
-
 :GetCurrentFunctions
 ```
 
+The plugin does not add any mappings by itself.
+As an example following map could be added to your `init.vim`:
+```vim
+nmap <Leader>cf <Plug>TreesitterCurrentFunctions
+```
 
-## Usage for other tools
+
+# Development
+
+## Extending/Adding selector
 
 The internal treesitter plugin will return data about the current buffer file in format of a table.
 There are two functions that can be called, one of them is probably only needed.
 
 So how it works is: `User > Command > Selector (Fuzzy Finder) > Treesitter part`
 
-The `Selector` can be exchanged (see [plugin folder](./plugin/treesitter-current-functions.vim)) by adding more edge cases to it.
+The `Selector` can be exchanged by adding more edgecases to the `Command` (see [plugin folder](./plugin/treesitter-current-functions.vim)).
 
 The `Selector` internally calls the treesitter part, which is either
 * `:lua require("treesitter-current-functions").get_current_functions()` or
 * `:lua require("treesitter-current-functions").get_current_functions_formatted()`
-both return the same information, but the formatted function already has the tables concatted into a table of strings
+both return the same information, but the formatted function already has the tables concatted into a table of strings.
 
-Implementation from vimscript can be found in the `FZF` implementation ([plugin folder](./plugin)) and an implementation from lua can be found in the `Telescope` implementation ([lua/selector folder](./lua/selector))
+Implementation from vimscript can be found in the `FZF` implementation ([plugin folder](./plugin)) and an implementation from lua can be found in the `Telescope` implementation ([lua/selector folder](./lua/treesitter-current-functions/selector))
 
 
 In general the functions can be called like following, and return:
-* vimscript: `echo luaeval('require("treesitter-current-functions").get_current_functions()')`
+* vimscript: `luaeval('require("treesitter-current-functions").get_current_functions()')`
   * `[[ "line_number", "function_name" ], ...]`
 * lua: `require("treesitter-current-functions").get_current_functions()`
   * `{{ "line_number", "function_name" }, ...}`
+* formatted call (`get_current_functions_formatted`)
+  * same call as in vimscript and lua examples
+  * `["line_number:\t function_name", "123:\t foo"]` or `{"line_number:\t function_name", "123:\t foo"}`
 
 
-# Development
+## Debugging
 
 For better debugging, uncomment the `package.loaded` part and comment out the `finish` in the plugin folder
 
