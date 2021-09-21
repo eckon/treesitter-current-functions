@@ -13,3 +13,5 @@
 * add other fuzzy finder integration
  * add general approach that checks what the user has and use that so that it does not need to be done manually
  * make approach easier for others to integrate their own stuff
+* remove fzf from the main vim file
+  * similar to lua have a selector folder for these
