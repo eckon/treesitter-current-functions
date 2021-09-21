@@ -28,6 +28,17 @@ end
 M.init = function()
   local output = require("treesitter-current-functions").get_current_functions_formatted()
 
+  local length = 0
+  for _ in pairs(output) do
+    length = length + 1
+  end
+
+  -- notify user in case we have no functions in the current buffer and exit
+  if length <= 0 then
+    print("No function found in the current buffer")
+    return
+  end
+
   pickers.new({}, {
     prompt_title = "Functions",
     finder = finders.new_table({
