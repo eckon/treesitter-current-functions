@@ -57,7 +57,7 @@ There are two functions that can be called, one of them is probably only needed.
 
 So how it works is: `User > Command > Selector (Fuzzy Finder) > Treesitter part`
 
-The `Selector` can be exchanged by adding more edgecases to the `Command` (see [plugin folder](./plugin/treesitter-current-functions.vim)).
+The `Selector` can be exchanged by adding more edgecases to the `Command` (see [main file in plugin folder](./plugin/treesitter-current-functions.vim)).
 
 The `Selector` internally calls the treesitter part, which is either
 * `:lua require("treesitter-current-functions").get_current_functions()` or
