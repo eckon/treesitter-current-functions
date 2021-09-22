@@ -44,7 +44,7 @@ Quickly call the plugin, without any mappings:
 The plugin does not add any mappings by itself.
 As an example following map could be added to your `init.vim`:
 ```vim
-nmap <Leader>cf <Plug>TreesitterCurrentFunctions
+nmap <Leader>cf <CMD>GetCurrentFunctions<CR>
 ```
 
 
@@ -52,25 +52,26 @@ nmap <Leader>cf <Plug>TreesitterCurrentFunctions
 
 ## Extending/Adding selector
 
-The internal treesitter plugin will return data about the current buffer file in format of a table.
-There are two functions that can be called, one of them is probably only needed.
+The [internal treesitter plugin](./lua/tscf/init.lua) will return data about the current buffer file in format of a table.
+There are two functions that can be called, one of them is probably only needed (formatted one).
 
 So how it works is: `User > Command > Selector (Fuzzy Finder) > Treesitter part`
 
-The `Selector` can be exchanged by adding more edgecases to the `Command` (see [main file in plugin folder](./plugin/treesitter-current-functions.vim)).
+The `Selector` can be exchanged by adding more edgecases to the `Command` (see [main file in plugin folder](./plugin/tscf.vim)).
 
 The `Selector` internally calls the treesitter part, which is either
-* `:lua require("treesitter-current-functions").get_current_functions()` or
-* `:lua require("treesitter-current-functions").get_current_functions_formatted()`
+* `:lua require("tscf").get_current_functions()` or
+* `:lua require("tscf").get_current_functions_formatted()`
 both return the same information, but the formatted function already has the tables concatted into a table of strings.
 
-Implementation from vimscript can be found in the `FZF` implementation ([plugin folder](./plugin)) and an implementation from lua can be found in the `Telescope` implementation ([lua/selector folder](./lua/treesitter-current-functions/selector))
-
+Examples can be found for vimscript and lua in the following parts:
+* [FZF (vimscript - autoload/tscf/selector)](./autoload/tscf/selector/fzf.vim)
+* [Telescope (lua - lua/tscf/selector)](./lua/tscf/selector/telescope.lua)
 
 In general the functions can be called like following, and return:
-* vimscript: `luaeval('require("treesitter-current-functions").get_current_functions()')`
+* vimscript: `luaeval('require("tscf").get_current_functions()')`
   * `[[ "line_number", "function_name" ], ...]`
-* lua: `require("treesitter-current-functions").get_current_functions()`
+* lua: `require("tscf").get_current_functions()`
   * `{{ "line_number", "function_name" }, ...}`
 * formatted call (`get_current_functions_formatted`)
   * same call as in vimscript and lua examples
