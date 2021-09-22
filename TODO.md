@@ -15,3 +15,4 @@
  * make approach easier for others to integrate their own stuff
 * remove fzf from the main vim file
   * similar to lua have a selector folder for these
+* add documentation with :help
