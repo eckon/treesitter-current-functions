@@ -1,23 +1,23 @@
-function x(
-  a,
-  b
-) {  }
+function multiline(
+  a, b
+) {}
 
-function z() {  }
+function inline() {}
 
-function bar() {  }
+function inline2() {}
 
-function foo() {  }
+function inline3() {}
 
-const c = () => {}
+const arrowFunction = () => {};
 
-class AA {
+class FirstClass {
   constructor(a) {}
-  a(){}
-  b(a,v,c) {}
+
+  firstMethod() {}
+
+  secoundMethod(a, v, c) {}
 }
 
-export class BB {
-  a(){}
+export class SecoundClass {
+  thirdMethod() {}
 }
-

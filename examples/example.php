@@ -1,9 +1,9 @@
 <?php
 
-function foo() {}
+function firstFunction() {}
 
-function bar() {}
+function secoundFunction() {}
 
-class x {
-    function a() {}
+class FirstClass {
+    function firstMethod() {}
 }
