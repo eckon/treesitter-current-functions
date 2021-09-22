@@ -6,6 +6,10 @@ Neovim plugin that builds on top of treesitter to:
   * Currently `FZF` or `Telescope`
   * Extension is easily doable ([see further down at development](#development))
 
+Find more information with vim's internal help documentation
+* `:help tscf`
+* `:help treesitter-current-function`
+
 
 # Disclaimer
 
