@@ -1,8 +1,9 @@
 function! s:function_sink(line) abort
   let parts = split(a:line, ':\t')
+  let line_number_without_spaces = trim(parts[0])
 
   " jump to the given line
-  execute 'normal ' . parts[0] . 'G'
+  execute 'normal ' . line_number_without_spaces . 'G'
 
   " realign cursor in view
   normal zz_
