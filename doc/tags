@@ -1,9 +1,10 @@
 :GetCurrentFunctions	tscf.txt	/*:GetCurrentFunctions*
 treesitter-current-functions	tscf.txt	/*treesitter-current-functions*
 tscf	tscf.txt	/*tscf*
+tscf-content	tscf.txt	/*tscf-content*
 tscf-development	tscf.txt	/*tscf-development*
 tscf-installation	tscf.txt	/*tscf-installation*
+tscf-introduction	tscf.txt	/*tscf-introduction*
 tscf-license	tscf.txt	/*tscf-license*
-tscf-summary	tscf.txt	/*tscf-summary*
 tscf-usage	tscf.txt	/*tscf-usage*
 tscf.txt	tscf.txt	/*tscf.txt*

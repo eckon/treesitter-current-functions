@@ -1,18 +1,16 @@
-*tscf.txt* quickly search/find/jump to functions in buffer
+*tscf.txt* *tscf* *treesitter-current-functions*             Last change: 22.09.2021
 
-tscf - TABLE OF CONTENTS                   *tscf* *treesitter-current-functions*
 ==============================================================================
+CONTENTS                                                          *tscf-content*
 
-  Summary                                                |tscf-summary|
-  Installation                                           |tscf-installation|
-  Usage                                                  |tscf-usage|
-  Development                                            |tscf-development|
-  License                                                |tscf-license|
+  Introduction ············································· |tscf-introduction|
+  Installation ············································· |tscf-installation|
+  Usage ··························································· |tscf-usage|
+  Development ··············································· |tscf-development|
+  License ······················································· |tscf-license|
 
-
-
-SUMMARY                                                           *tscf-summary*
 ==============================================================================
+INTRODUCTION                                                 *tscf-introduction*
 
 Quickly get a list of all functions in the current buffer in your favourite
 fuzzy finder (extension of `selector` easily possible).
@@ -21,10 +19,8 @@ Search and filter the list and jump to the line of the selected entry.
 
 With `treesitter` this should work for most languages out of the box.
 
-
-
-INSTALLATION                                                 *tscf-installation*
 ==============================================================================
+INSTALLATION                                                 *tscf-installation*
 
 Use your favourite Plugin Manager
 >
@@ -38,25 +34,26 @@ Currently the order would be: `fzf` > `telescope` > `error`
 
 Other selectors can be integrated with this plugin, see |tscf-development|.
 
-
-
-USAGE                                        *tscf-usage* *:GetCurrentFunctions*
 ==============================================================================
+USAGE                                                               *tscf-usage*
 
 No mappings are added by default.
 
+
+Commands~
+
 To call the plugin just run the follow command or map it to a key:
->
-  :GetCurrentFunctions
-<
 
+  `:GetCurrentFunctions`                                    *:GetCurrentFunctions*
 
-
-DEVELOPMENT                                                   *tscf-development*
 ==============================================================================
+DEVELOPMENT                                                   *tscf-development*
 
 This part might change often, because of this only the README.md will contain
 an up-to-date version.
+
+
+Structure~
 
 Bug generally the structure of this repository can be split into 3.
 
@@ -76,6 +73,9 @@ Bug generally the structure of this repository can be split into 3.
 
 Look into `README.md` part `Development`
 
+
+Doc~
+
 To update this doc, update the txt file in `./doc` and run the
 >
   :helptags doc/
@@ -84,14 +84,10 @@ command.
 
 Disabling the syntax can be achived by unsetting the filetype.
 
-
-
-LICENSE                                                           *tscf-license*
 ==============================================================================
+LICENSE                                                           *tscf-license*
 
 The MIT License (MIT)
-
-
 
 ==============================================================================
 vim:tw=78:sw=2:ts=2:ft=help:norl:nowrap:
