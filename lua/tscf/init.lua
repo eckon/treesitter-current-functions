@@ -133,6 +133,20 @@ local function get_function_list_of_parent(parent)
   return content
 end
 
+local function get_max_line_number_length(output)
+  local max_line_number_length = 0
+  for _, node_information in ipairs(output) do
+    local line_number = node_information[1]
+    local current_line_number_length = string.len(line_number)
+
+    if current_line_number_length >= max_line_number_length then
+      max_line_number_length = current_line_number_length
+    end
+  end
+
+  return max_line_number_length
+end
+
 M.get_current_functions = function()
   local root = get_root()
   if root == nil then
@@ -151,12 +165,17 @@ M.get_current_functions_formatted = function()
   local res = {}
   local output = M.get_current_functions()
 
+  local max_line_number_length = get_max_line_number_length(output)
+  -- add 1 because we will add a ":" at the end of the number
+  local line_number_formatting_string = "% " .. (max_line_number_length + 1) .. "d"
+
   -- every entry will be concatted into a string
   -- result: {"line_number:\t function", "123:\t foo", ...}
   for _, node_information in ipairs(output) do
     local line_number = node_information[1]
+    local space_aligned_line_number = string.format(line_number_formatting_string, line_number)
     local function_name = node_information[2]
-    local concatted_string = line_number .. ":\t" .. function_name
+    local concatted_string = space_aligned_line_number .. ":\t" .. function_name
     table.insert(res, concatted_string)
   end
 
