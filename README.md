@@ -28,7 +28,11 @@ The plugin should not be able to do destructive work, the only things that can h
 
 ## Example
 
-![Example Usage of treesitter-current-functions](./treesitter-current-functions-example.gif)
+* Showcases fzf and telescope selector in vim, lua, php and js file
+![Example Usage of treesitter-current-functions](./examples/tscf-example.gif)
+
+* Showcases older version, basic usage is the same (only fzf)
+![Example Usage of treesitter-current-functions 2 (old)](./examples/tscf-example2.gif)
 
 
 ## Install
