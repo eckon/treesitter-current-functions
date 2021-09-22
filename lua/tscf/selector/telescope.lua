@@ -26,7 +26,7 @@ end
 
 
 M.init = function()
-  local output = require("treesitter-current-functions").get_current_functions_formatted()
+  local output = require("tscf").get_current_functions_formatted()
 
   local length = 0
   for _ in pairs(output) do
