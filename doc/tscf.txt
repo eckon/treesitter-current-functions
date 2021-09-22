@@ -1,0 +1,97 @@
+*tscf.txt* quickly search/find/jump to functions in buffer
+
+tscf - TABLE OF CONTENTS                   *tscf* *treesitter-current-functions*
+==============================================================================
+
+  Summary                                                |tscf-summary|
+  Installation                                           |tscf-installation|
+  Usage                                                  |tscf-usage|
+  Development                                            |tscf-development|
+  License                                                |tscf-license|
+
+
+
+SUMMARY                                                           *tscf-summary*
+==============================================================================
+
+Quickly get a list of all functions in the current buffer in your favourite
+fuzzy finder (extension of `selector` easily possible).
+
+Search and filter the list and jump to the line of the selected entry.
+
+With `treesitter` this should work for most languages out of the box.
+
+
+
+INSTALLATION                                                 *tscf-installation*
+==============================================================================
+
+Use your favourite Plugin Manager
+>
+  Plug 'eckon/treesitter-current-functions'
+<
+Additionally `treesitter` is needed and
+one fuzzy search plugin (`selector`) like fzf or telescope.
+
+The plugin will call depending on what selector is available.
+Currently the order would be: `fzf` > `telescope` > `error`
+
+Other selectors can be integrated with this plugin, see |tscf-development|.
+
+
+
+USAGE                                        *tscf-usage* *:GetCurrentFunctions*
+==============================================================================
+
+No mappings are added by default.
+
+To call the plugin just run the follow command or map it to a key:
+>
+  :GetCurrentFunctions
+<
+
+
+
+DEVELOPMENT                                                   *tscf-development*
+==============================================================================
+
+This part might change often, because of this only the README.md will contain
+an up-to-date version.
+
+Bug generally the structure of this repository can be split into 3.
+
+  1. `command`
+    - used by the user to call the plugin (see |tscf-usage|)
+    - is the entry point, which can be found in the `./plugin` folder
+    - it will call the `selector`
+  2. `selector`
+    - different fuzzy finders like `fzf` and `telescope`
+    - built to be easily replaced/extended
+    - vim ones can be found in `./autoload/tscf/selector` folder
+    - lua ones can be found in `./lua/tscf/selector` folder
+    - it will call the `core-plugin`
+  3. `core-plugin`
+    - has the `treesitter` logic
+    - returns a table with needed data for the `selector`
+
+Look into `README.md` part `Development`
+
+To update this doc, update the txt file in `./doc` and run the
+>
+  :helptags doc/
+<
+command.
+
+Disabling the syntax can be achived by unsetting the filetype.
+
+
+
+LICENSE                                                           *tscf-license*
+==============================================================================
+
+The MIT License (MIT)
+
+
+
+==============================================================================
+vim:tw=78:sw=2:ts=2:ft=help:norl:nowrap:

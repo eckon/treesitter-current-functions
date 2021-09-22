@@ -78,6 +78,12 @@ In general the functions can be called like following, and return:
   * `["line_number:\t function_name", "123:\t foo"]` or `{"line_number:\t function_name", "123:\t foo"}`
 
 
+## Vim Help
+
+* Add data to the help file (in doc)
+* Run `:helptag doc/` to regenerate tags
+
+
 ## Debugging
 
 For better debugging, uncomment the `package.loaded` part and comment out the `finish` in the plugin folder
