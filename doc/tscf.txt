@@ -39,7 +39,7 @@ USAGE                                                               *tscf-usage*
 
 No mappings are added by default.
 
-
+------------------------------------------------------------------------------
 Commands~
 
 To call the plugin just run the follow command or map it to a key:
@@ -52,7 +52,7 @@ DEVELOPMENT                                                   *tscf-development*
 This part might change often, because of this only the README.md will contain
 an up-to-date version.
 
-
+------------------------------------------------------------------------------
 Structure~
 
 Bug generally the structure of this repository can be split into 3.
@@ -73,7 +73,7 @@ Bug generally the structure of this repository can be split into 3.
 
 Look into `README.md` part `Development`
 
-
+------------------------------------------------------------------------------
 Doc~
 
 To update this doc, update the txt file in `./doc` and run the
