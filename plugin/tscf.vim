@@ -9,7 +9,7 @@ let g:loaded_tscf = 1
 " lua package.loaded['tscf.selector.telescope'] = nil
 
 " general execution of the plugin
-function! tscf#select_current_functions(...) abort
+function! tscf#select_function(...) abort
   let fzf_exists = exists('g:loaded_fzf_vim')
   let telescope_exists = exists('g:loaded_telescope')
 
@@ -24,4 +24,4 @@ function! tscf#select_current_functions(...) abort
 endfunction
 
 " mappings
-command! GetCurrentFunctions call tscf#select_current_functions()
+command! GetCurrentFunctions call tscf#select_function()
