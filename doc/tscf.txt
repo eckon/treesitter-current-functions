@@ -29,7 +29,8 @@ Use your favourite Plugin Manager
 Additionally `treesitter` is needed and
 one fuzzy search plugin (`selector`) like fzf or telescope.
 
-The plugin will call depending on what selector is available.
+The plugin will call depending on what `selector` is available, unless one of
+the forced commands are run (|tscf-usage|).
 Currently the order would be: `fzf` > `telescope` > `error`
 
 Other selectors can be integrated with this plugin, see |tscf-development|.
@@ -45,6 +46,17 @@ Commands~
 To call the plugin just run the follow command or map it to a key:
 
   `:GetCurrentFunctions`                                    *:GetCurrentFunctions*
+  `:GetCurrentFunctionsForceFzf`                    *:GetCurrentFunctionsForceFzf*
+  `:GetCurrentFunctionsForceTelescope`        *:GetCurrentFunctionsForceTelescope*
+
+These functions call the entry point function found in `./plugin/tscf.vim`:
+  `tscf#select_function("selector")`
+
+Selector of given argument is tried to be run, if not possible it will result
+in running the default behaviour (no argument) meaning the plugin tries to run
+any one of the `selectors`.
+This is equal to the |:GetCurrentFunctions| call.
+
 
 ==============================================================================
 DEVELOPMENT                                                   *tscf-development*

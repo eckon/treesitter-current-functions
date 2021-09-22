@@ -45,3 +45,5 @@ endfunction
 
 " mappings
 command! GetCurrentFunctions call tscf#select_function()
+command! GetCurrentFunctionsForceFzf call tscf#select_function("fzf")
+command! GetCurrentFunctionsForceTelescope call tscf#select_function("telescope")

@@ -51,6 +51,12 @@ As an example following map could be added to your `init.vim`:
 nmap <Leader>cf <CMD>GetCurrentFunctions<CR>
 ```
 
+For more information see
+```vim
+:help tscf-installation
+:help tscf-usage
+```
+
 
 # Development
 
