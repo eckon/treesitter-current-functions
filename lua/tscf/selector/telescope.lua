@@ -15,8 +15,13 @@ local function jump_to_selected_line(prompt_bufnr)
   -- example: "1:\n foo"
   local chosen_line = chosen[1]
 
+  -- parsing breaks with spaces in number, so remove all spaces of the line
+  -- works because we can ignore everything after the number here
+  -- example: "  1:\n foo"
+  local chosen_line_without_spaces = string.gsub(chosen_line, "%s+", "")
+
   -- get the first numbers, which should be the line number
-  local line_number = string.match(chosen_line, "%d*")
+  local line_number = string.match(chosen_line_without_spaces, "%d*")
 
   -- jump to the line number
   vim.cmd("normal " .. line_number .. "G")
