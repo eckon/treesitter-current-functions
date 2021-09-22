@@ -28,10 +28,12 @@ The plugin should not be able to do destructive work, the only things that can h
 
 ## Example
 
-* Showcases fzf and telescope selector in vim, lua, php and js file
+> Showcases fzf and telescope selector in vim, lua, php and js file
+
 ![Example Usage of treesitter-current-functions](./examples/tscf-example.gif)
 
-* Showcases older version, basic usage is the same (only fzf)
+> Showcases older version, basic usage is the same (only fzf)
+
 ![Example Usage of treesitter-current-functions 2 (old)](./examples/tscf-example2.gif)
 
 
@@ -56,10 +58,8 @@ nmap <Leader>cf <CMD>GetCurrentFunctions<CR>
 ```
 
 For more information see
-```vim
-:help tscf-installation
-:help tscf-usage
-```
+* `:help tscf-installation`
+* `:help tscf-usage`
 
 
 # Development
