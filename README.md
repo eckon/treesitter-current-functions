@@ -8,7 +8,7 @@ Neovim plugin that builds on top of treesitter to:
 
 Find more information with vim's internal help documentation
 * `:help tscf`
-* `:help treesitter-current-function`
+* `:help treesitter-current-functions`
 
 
 # Disclaimer
