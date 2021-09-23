@@ -43,13 +43,29 @@ No mappings are added by default.
 ------------------------------------------------------------------------------
 Commands~
 
-To call the plugin just run the follow command or map it to a key:
+Generally the commands will populate a list with all functions of the current
+buffer.
+The list can then be searched through and filtered by the `selector`.
+On selection the cursor will be moved to the selected function line.
 
-  `:GetCurrentFunctions`                                    *:GetCurrentFunctions*
-  `:GetCurrentFunctionsForceFzf`                    *:GetCurrentFunctionsForceFzf*
-  `:GetCurrentFunctionsForceTelescope`        *:GetCurrentFunctionsForceTelescope*
 
-These functions call the entry point function found in `./plugin/tscf.vim`:
+:GetCurrentFunctions                                      *:GetCurrentFunctions*
+
+  Run the plugin. This will call the default behaviour, which means the first
+  found `selector` will be run.
+  Checking-Order: `fzf` > `telescope` > `error`
+
+
+:GetCurrentFunctionsForce {arg}                      *:GetCurrentFunctionsForce*
+
+  Run the plugin. This will try to force the given `selector`.
+  If given `selector` does not exist |:GetCurrentFunctions| will be triggered.
+
+  Tab completion is available.
+  Possible for {arg}: `fzf`, `telescope`
+
+
+These commands call the entry point function found in `./plugin/tscf.vim`:
   `tscf#select_function("selector")`
 
 Selector of given argument is tried to be run, if not possible it will result

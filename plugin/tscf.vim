@@ -43,7 +43,14 @@ function! tscf#select_function(...) abort
   echo "Install one (:help tscf-installation) or add your own selector (:help tscf-development)"
 endfunction
 
+" tab completion for forcing command
+function! s:tscf_selector_completion(arg, line, pos) abort
+  let list = ["fzf","telescope"]
+  let completion_string = join(list, "\n")
+
+  return completion_string
+endfunction
+
 " mappings
 command! GetCurrentFunctions call tscf#select_function()
-command! GetCurrentFunctionsForceFzf call tscf#select_function("fzf")
-command! GetCurrentFunctionsForceTelescope call tscf#select_function("telescope")
+command! -nargs=1 -complete=custom,s:tscf_selector_completion GetCurrentFunctionsForce call tscf#select_function(<q-args>)

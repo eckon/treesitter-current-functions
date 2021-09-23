@@ -1,6 +1,5 @@
 :GetCurrentFunctions	tscf.txt	/*:GetCurrentFunctions*
-:GetCurrentFunctionsForceFzf	tscf.txt	/*:GetCurrentFunctionsForceFzf*
-:GetCurrentFunctionsForceTelescope	tscf.txt	/*:GetCurrentFunctionsForceTelescope*
+:GetCurrentFunctionsForce	tscf.txt	/*:GetCurrentFunctionsForce*
 treesitter-current-functions	tscf.txt	/*treesitter-current-functions*
 tscf	tscf.txt	/*tscf*
 tscf-content	tscf.txt	/*tscf-content*
