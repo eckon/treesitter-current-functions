@@ -1,4 +1,3 @@
-local ts_utils = require 'nvim-treesitter.ts_utils'
 local parsers = require 'nvim-treesitter.parsers'
 
 local M = {}
@@ -32,7 +31,7 @@ local function get_function_node_parameter_string(function_node)
   -- get content of all nods and concat them into one string
   -- TODO: add logic to add spaces after ":" "," etc.
   for node in parameter_node:iter_children() do
-    local node_content = ts_utils.get_node_text(node)[1]
+    local node_content = vim.treesitter.query.get_node_text(node, 0)
     parameter_content = parameter_content .. node_content .. " "
   end
 
@@ -41,9 +40,9 @@ end
 
 local function get_node_information(node)
   local function_name_node = get_named_node(node, "name")
-  local function_name = ts_utils.get_node_text(function_name_node)[1]
+  local function_name = vim.treesitter.query.get_node_text(function_name_node, 0)
   -- as fallback in case named node does not exist
-  local line_content = ts_utils.get_node_text(node)[1]
+  local line_content = vim.treesitter.query.get_node_text(node, 0)
   -- return line content in case we have no name (happens if there is no named node)
   function_name = function_name or line_content
 
@@ -116,7 +115,7 @@ local function get_function_list_of_parent(parent)
 
     if is_complex_recursive_structure then
       local structure_name_node = get_named_node(tsnode, "name")
-      local structure_name = ts_utils.get_node_text(structure_name_node)[1]
+      local structure_name = vim.treesitter.query.get_node_text(structure_name_node, 0)
 
       -- body this might contain functions (methods)
       local body = get_named_node(tsnode, "body")
