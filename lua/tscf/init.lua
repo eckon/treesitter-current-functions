@@ -1,4 +1,4 @@
-local parsers = require 'nvim-treesitter.parsers'
+local parsers = require "nvim-treesitter.parsers"
 
 local M = {}
 
@@ -18,30 +18,11 @@ local function get_named_node(parent, named)
     end
 
     -- some languages have deeply nested structures
-    -- in 'declarator' parts can exist as well
+    -- in "declarator" parts can exist as well
     if name == "declarator" then
       return get_named_node(node, named)
     end
   end
-end
-
-local function get_function_node_parameter_string(function_node)
-  local parameter_node = get_named_node(function_node, "parameters")
-
-  if parameter_node == nil then
-    return ""
-  end
-
-  local parameter_content = ""
-
-  -- get content of all nods and concat them into one string
-  -- TODO: add logic to add spaces after ":" "," etc.
-  for node in parameter_node:iter_children() do
-    local node_content = vim.treesitter.query.get_node_text(node, 0)
-    parameter_content = parameter_content .. node_content .. " "
-  end
-
-  return parameter_content
 end
 
 local function get_node_information(node)
