@@ -1,17 +1,23 @@
-# Information
+# treesitter-current-functions
 
-Neovim plugin that builds on top of treesitter to:
-* Show all functions in the current buffer
-* Open a fuzzy finder or any other selection tool to jump to that function line
-  * Currently `FZF` or `Telescope`
-  * Extension is easily doable ([see further down at development](#development))
+(also `tscf`) is a neovim plugin that builds on top of treesitter to
 
-Find more information with vim's internal help documentation
-* `:help tscf`
-* `:help treesitter-current-functions`
+* show all functions or function-like structures in the current buffer
+* open a selection tool (`fzf`, `telescope`, etc.)
+
+to quickly jump to the wanted function location
 
 
-# Disclaimer
+## Example
+
+### fzf and telescope selector in vim, lua, php and js file (older command structure)
+![Example Usage of treesitter-current-functions](./examples/tscf-example.gif)
+
+### fzf usage (older version)
+![Example Usage of treesitter-current-functions 2 (old)](./examples/tscf-example2.gif)
+
+
+## Disclaimer
 
 The plugin is by far not done and not tested, I am just starting with lua, vimscript and treesitter, which is why it will break,
 not work as expected or show wrong results.
@@ -24,25 +30,12 @@ Fuzzy finders might break, depending on which ones (I mainly use `FZF` so `Teles
 The plugin should not be able to do destructive work, the only things that can happen is, that it shows wrong information or jump to wrong places.
 
 
-# Usage
-
-## Example
-
-> Showcases fzf and telescope selector in vim, lua, php and js file
-
-![Example Usage of treesitter-current-functions](./examples/tscf-example.gif)
-
-> Showcases older version, basic usage is the same (only fzf)
-
-![Example Usage of treesitter-current-functions 2 (old)](./examples/tscf-example2.gif)
-
-
-## Install
+## Install & Setup
 
 * Install this repo with your favourite plugin manager
   * `Plug 'eckon/treesitter-current-functions'`
-* [Treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
-* Selection tool (only one is needed)
+* Install [Treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+* Install one Selection tool
   * [fzf](https://github.com/junegunn/fzf.vim)
   * [telescope](https://github.com/nvim-telescope/telescope.nvim)
 
@@ -57,7 +50,11 @@ As an example following map could be added to your `init.vim`:
 nmap <Leader>cf <CMD>GetCurrentFunctions<CR>
 ```
 
+## Information
+
 For more information see
+* `:help treesitter-current-functions`
+* `:help tscf`
 * `:help tscf-installation`
 * `:help tscf-usage`
 
