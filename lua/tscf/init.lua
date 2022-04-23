@@ -58,7 +58,7 @@ local function get_node_information(node)
   ---@class NodeInformation
   ---@field line_number number
   ---@field function_name string
-  return { line_number, function_name }
+  return { line_number = line_number, function_name = function_name }
 end
 
 ---Get all functions of the given "parent" node concatted into a table
@@ -135,7 +135,7 @@ local function get_function_list_of_parent(parent)
 
       for _, node_information in ipairs(info) do
         -- append structure name infront of methods (or other structures)
-        node_information[2] = structure_name .. " > " .. node_information[2]
+        node_information.function_name = structure_name .. " > " .. node_information.function_name
         table.insert(content, node_information)
       end
     end
@@ -144,15 +144,13 @@ local function get_function_list_of_parent(parent)
   return content
 end
 
----Get longest string in NodeInformation to format resulting strings
----of information nicely into aligned rows
+---Get biggest line number to align numbers evenly in rows
 ---@param info NodeInformation[]
 ---@return number
 local function get_max_line_number_length(info)
   local max_line_number_length = 0
   for _, node_information in ipairs(info) do
-    local line_number = node_information[1]
-    local current_line_number_length = string.len(line_number)
+    local current_line_number_length = string.len(node_information.line_number)
 
     if current_line_number_length >= max_line_number_length then
       max_line_number_length = current_line_number_length
@@ -180,7 +178,7 @@ M.get_current_functions = function()
   end
 
   -- sort content, it could have different order in some edge cases
-  table.sort(content, function(a, b) return a[1] < b[1] end)
+  table.sort(content, function(a, b) return a.line_number < b.line_number end)
 
   return content
 end
@@ -201,10 +199,11 @@ M.get_current_functions_formatted = function()
   -- every entry will be concatted into a string
   -- result: {"line_number:\t function", "123:\t foo", ...}
   for _, node_information in ipairs(output) do
-    local line_number = node_information[1]
-    local space_aligned_line_number = string.format(line_number_formatting_string, line_number)
-    local function_name = node_information[2]
-    local concatted_string = space_aligned_line_number .. ":\t" .. function_name
+    local space_aligned_line_number =
+      string.format(line_number_formatting_string, node_information.line_number)
+    local concatted_string =
+      space_aligned_line_number .. ":\t" .. node_information.function_name
+
     table.insert(res, concatted_string)
   end
 

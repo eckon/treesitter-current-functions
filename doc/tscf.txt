@@ -83,7 +83,7 @@ an up-to-date version.
 ------------------------------------------------------------------------------
 Structure~
 
-Bug generally the structure of this repository can be split into 3.
+But generally the structure of this repository can be split into 3.
 
   1. `command`
     - used by the user to call the plugin (see |tscf-usage|)

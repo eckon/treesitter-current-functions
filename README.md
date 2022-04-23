@@ -81,9 +81,9 @@ Examples can be found for vimscript and lua in the following parts:
 
 In general the functions can be called like following, and return:
 * vimscript: `luaeval('require("tscf").get_current_functions()')`
-  * `[[ "line_number", "function_name" ], ...]`
+  * `[[ "line_number": 1, "function_name": "name" ], ...]`
 * lua: `require("tscf").get_current_functions()`
-  * `{{ "line_number", "function_name" }, ...}`
+  * `{{ "line_number": 1, "function_name": "name" }, ...}`
 * formatted call (`get_current_functions_formatted`)
   * same call as in vimscript and lua examples
   * `["line_number:\t function_name", "123:\t foo"]` or `{"line_number:\t function_name", "123:\t foo"}`
