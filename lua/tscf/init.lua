@@ -1,7 +1,10 @@
+---@alias node unknown
 local parsers = require "nvim-treesitter.parsers"
 
 local M = {}
 
+---Wrapper to get treesitter root parser
+---@return node|nil
 local function get_root()
   local parser = parsers.get_parser()
   if parser == nil then
@@ -11,6 +14,10 @@ local function get_root()
   return parser:parse()[1]:root()
 end
 
+---Return node of "parent" that has given "named" as name in nested node
+---@param parent node
+---@param named string
+---@return node|nil
 local function get_named_node(parent, named)
   for node, name in parent:iter_children() do
     if name == named then
@@ -25,11 +32,13 @@ local function get_named_node(parent, named)
   end
 end
 
+---Get node information and construct a useable table out of it
+---@param node node
+---@return NodeInformation|nil
 local function get_node_information(node)
-  local function_name_node = get_named_node(node, "name")
-
   -- can be that some nodes have a not yet supported structure
   -- instead of crashing just ignore the node
+  local function_name_node = get_named_node(node, "name")
   if function_name_node == nil then
     return nil
   end
@@ -46,10 +55,17 @@ local function get_node_information(node)
   local row, _, _ = node:start()
   local line_number = row + 1
 
+  ---@class NodeInformation
+  ---@field line_number number
+  ---@field function_name string
   return { line_number, function_name }
 end
 
+---Get all functions of the given "parent" node concatted into a table
+---@param parent node
+---@return NodeInformation[]
 local function get_function_list_of_parent(parent)
+  ---@type NodeInformation[]
   local content = {}
 
   if parent == nil then
@@ -128,9 +144,13 @@ local function get_function_list_of_parent(parent)
   return content
 end
 
-local function get_max_line_number_length(output)
+---Get longest string in NodeInformation to format resulting strings
+---of information nicely into aligned rows
+---@param info NodeInformation[]
+---@return number
+local function get_max_line_number_length(info)
   local max_line_number_length = 0
-  for _, node_information in ipairs(output) do
+  for _, node_information in ipairs(info) do
     local line_number = node_information[1]
     local current_line_number_length = string.len(line_number)
 
@@ -142,6 +162,9 @@ local function get_max_line_number_length(output)
   return max_line_number_length
 end
 
+---Global endpoint to get all functions of the current buffer
+---structured into a table of multiple table informations
+---@return NodeInformation[]
 M.get_current_functions = function()
   local root = get_root()
   if root == nil then
@@ -162,7 +185,12 @@ M.get_current_functions = function()
   return content
 end
 
+---Global endpoint to get all functions of the current buffer
+---structured into a table of formatted strings for easy usage of a selector
+---@alias FormattedInformation string[]
+---@return FormattedInformation # example {"line_number:\t function", "123:\t foo", ...}
 M.get_current_functions_formatted = function()
+  ---@type FormattedInformation
   local res = {}
   local output = M.get_current_functions()
 

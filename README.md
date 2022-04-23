@@ -89,6 +89,13 @@ In general the functions can be called like following, and return:
   * `["line_number:\t function_name", "123:\t foo"]` or `{"line_number:\t function_name", "123:\t foo"}`
 
 
+## LSP
+
+The lua code uses [EmmyLua Annotations](https://github.com/sumneko/lua-language-server/wiki/EmmyLua-Annotations)
+from the [sumneko lua lsp](https://github.com/sumneko/lua-language-server)
+to enable hover docs and generally improve the development environment/workflow.
+
+
 ## Vim Help
 
 * Add data to the help file (in doc)
