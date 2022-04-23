@@ -3,10 +3,10 @@ function! s:function_sink(line) abort
   let line_number_without_spaces = trim(parts[0])
 
   " jump to the given line
-  execute 'normal ' . line_number_without_spaces . 'G'
+  execute 'normal! ' . line_number_without_spaces . 'G'
 
   " realign cursor in view
-  normal zz_
+  execute 'normal! zz_'
 endfunction
 
 function! tscf#selector#fzf#init() abort

@@ -24,9 +24,9 @@ local function jump_to_selected_line(prompt_bufnr)
   local line_number = string.match(chosen_line_without_spaces, "%d*")
 
   -- jump to the line number
-  vim.cmd("normal " .. line_number .. "G")
+  vim.cmd("normal! " .. line_number .. "G")
   -- realign cursor in view
-  vim.cmd("normal zz_")
+  vim.cmd("normal! zz_")
 end
 
 
