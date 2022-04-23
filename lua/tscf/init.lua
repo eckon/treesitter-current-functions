@@ -16,6 +16,12 @@ local function get_named_node(parent, named)
     if name == named then
       return node
     end
+
+    -- some languages have deeply nested structures
+    -- in 'declarator' parts can exist as well
+    if name == "declarator" then
+      return get_named_node(node, named)
+    end
   end
 end
 
