@@ -149,7 +149,8 @@ end
 M.get_current_functions = function()
   local root = get_root()
   if root == nil then
-    error("No Tressitter parser found")
+    print("No Tressitter-parser found in the current buffer")
+    return {}
   end
 
   local content = get_function_list_of_parent(root)
