@@ -153,7 +153,12 @@ M.get_current_functions = function()
     return {}
   end
 
-  local content = get_function_list_of_parent(root)
+  local ok, content = pcall(get_function_list_of_parent, root)
+  if not ok then
+    print("Something went wrong in the current buffer")
+    print("Current buffer might have unsuported language or syntax")
+    return {}
+  end
 
   -- sort content, it could have different order in some edge cases
   table.sort(content, function(a, b) return a[1] < b[1] end)
