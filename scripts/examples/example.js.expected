@@ -1,0 +1,28 @@
+{ {
+    function_name = "multiline",
+    line_number = 1
+  }, {
+    function_name = "inline",
+    line_number = 5
+  }, {
+    function_name = "inline2",
+    line_number = 7
+  }, {
+    function_name = "inline3",
+    line_number = 9
+  }, {
+    function_name = "arrowFunction",
+    line_number = 11
+  }, {
+    function_name = "FirstClass > constructor",
+    line_number = 14
+  }, {
+    function_name = "FirstClass > firstMethod",
+    line_number = 16
+  }, {
+    function_name = "FirstClass > secoundMethod",
+    line_number = 18
+  }, {
+    function_name = "SecoundClass > thirdMethod",
+    line_number = 22
+  } }

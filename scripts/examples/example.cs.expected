@@ -1,0 +1,10 @@
+{ {
+    function_name = "Example.Mod...ExampleManager > ExampleManager",
+    line_number = 5
+  }, {
+    function_name = "Example.Model > ExampleManager > Start",
+    line_number = 9
+  }, {
+    function_name = "Example.Model > ExampleManager > End",
+    line_number = 13
+  } }

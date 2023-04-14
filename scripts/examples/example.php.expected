@@ -1,0 +1,10 @@
+{ {
+    function_name = "firstFunction",
+    line_number = 3
+  }, {
+    function_name = "secoundFunction",
+    line_number = 5
+  }, {
+    function_name = "FirstClass > firstMethod",
+    line_number = 8
+  } }
