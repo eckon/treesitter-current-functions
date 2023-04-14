@@ -43,10 +43,10 @@ local function get_node_information(node)
     return nil
   end
 
-  local function_name = vim.treesitter.query.get_node_text(function_name_node, 0)
+  local function_name = vim.treesitter.get_node_text(function_name_node, 0)
 
   -- as fallback in case named node does not exist
-  local line_content = vim.treesitter.query.get_node_text(node, 0)
+  local line_content = vim.treesitter.get_node_text(node, 0)
 
   -- return line content in case we have no name (happens if there is no named node)
   function_name = function_name or line_content
@@ -127,7 +127,7 @@ local function get_function_list_of_parent(parent)
 
     if is_complex_recursive_structure then
       local structure_name_node = get_named_node(tsnode, "name")
-      local structure_name = vim.treesitter.query.get_node_text(structure_name_node, 0)
+      local structure_name = vim.treesitter.get_node_text(structure_name_node, 0)
 
       -- body this might contain functions (methods)
       local body = get_named_node(tsnode, "body")
