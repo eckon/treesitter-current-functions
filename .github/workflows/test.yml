@@ -1,0 +1,31 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install neovim
+        run: |
+          wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
+          tar -zxf nvim-linux64.tar.gz
+          sudo ln -s $(pwd)/nvim-linux64/bin/nvim /usr/local/bin
+
+      # maybe later add some caching (see https://github.com/nvim-telescope/telescope.nvim/blob/master/.github/workflows/ci.yml)
+      - name: Install treesitter parser
+        run: |
+          git clone https://github.com/nvim-treesitter/nvim-treesitter
+          nvim --headless --noplugin -u scripts/minimal_init.lua +"TSInstallSync php javascript cpp c_sharp" -c "q"
+
+      - name: Run Script for tests
+        run: ./scripts/run_tests.sh

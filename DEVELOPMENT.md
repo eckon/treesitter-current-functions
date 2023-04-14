@@ -58,3 +58,17 @@ Starting with neovim version 0.9 the `treesitter playground` is integrated into 
 
 This will show what node is under the cursor and the general structure, and can help with implementing new ways of declaring functions,
 or to update the handling of functions for other languages.
+
+
+## Testing
+
+* Install `nvim-treesitter` locally into the plugin (inside this plugin folder)
+  * `git clone https://github.com/nvim-treesitter/nvim-treesitter`
+  * install the parsers `nvim --headless --noplugin -u scripts/minimal_init.lua +"TSInstallSync all" -c "q"`
+    * this will take some time (could also only install needed parsers)
+    * see `./.github/workflows/test.yml` for an example
+* or manually link it inside the `./scripts/minimal_init.lua` file
+  * something like `vim.opt.runtimepath:append("/home/<name>/.local/share/nvim/<manager>/nvim-treesitter")`
+
+Run `./scripts/run_tests.sh` to see if any outputs of the main functionality changed and if, what changed exactly.
+This is similar to snapshot testing, to regenerate the snapshot, look into the given script.

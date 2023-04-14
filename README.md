@@ -11,10 +11,10 @@ to quickly jump to the wanted function location
 ## Example
 
 ### fzf and telescope selector in vim, lua, php and js file (older command structure)
-![Example Usage of treesitter-current-functions](./examples/tscf-example.gif)
+![Example Usage of treesitter-current-functions](./tscf-example.gif)
 
 ### fzf usage (older version)
-![Example Usage of treesitter-current-functions 2 (old)](./examples/tscf-example2.gif)
+![Example Usage of treesitter-current-functions 2 (old)](./tscf-example2.gif)
 
 
 ## Disclaimer
