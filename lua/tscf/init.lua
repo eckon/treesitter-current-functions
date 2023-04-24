@@ -1,5 +1,5 @@
 ---@alias node unknown
-local parsers = require "nvim-treesitter.parsers"
+local parsers = require("nvim-treesitter.parsers")
 
 local M = {}
 
@@ -27,7 +27,17 @@ local function get_named_node(parent, named)
     -- some languages have deeply nested structures
     -- in "declarator" parts can exist as well
     if name == "declarator" then
-      return get_named_node(node, named)
+      local named_node = get_named_node(node, named)
+      if named_node ~= nil then
+        return named_node
+      end
+
+      -- when we are the furthest in the recursion and have an identifier, this can also be a function
+      if node:type() == "identifier" then
+        return node
+      end
+
+      return nil
     end
   end
 end
@@ -74,13 +84,12 @@ local function get_function_list_of_parent(parent)
 
   for tsnode in parent:iter_children() do
     -- standard ways of declaring/defining functions
-    local is_simple_function =
-      tsnode:type() == "function_declaration" or
-      tsnode:type() == "function_definition" or
-      tsnode:type() == "local_function" or
-      tsnode:type() == "method_definition" or
-      tsnode:type() == "method_declaration" or
-      tsnode:type() == "constructor_declaration"
+    local is_simple_function = tsnode:type() == "function_declaration"
+      or tsnode:type() == "function_definition"
+      or tsnode:type() == "local_function"
+      or tsnode:type() == "method_definition"
+      or tsnode:type() == "method_declaration"
+      or tsnode:type() == "constructor_declaration"
 
     if is_simple_function then
       local info = get_node_information(tsnode)
@@ -88,16 +97,13 @@ local function get_function_list_of_parent(parent)
     end
 
     -- some functions might have the information in their parent (assigned variables)
-    local is_parent_dependend_function =
-      tsnode:type() == "function_definition" or
-      tsnode:type() == "arrow_function"
+    local is_parent_dependend_function = tsnode:type() == "function_definition" or tsnode:type() == "arrow_function"
 
     if is_parent_dependend_function then
       -- we want to name of the variable that it was assigned to -> parent
       -- if it has valuable information
-      local parent_has_information =
-        tsnode:parent():type() == "variable_declarator" or
-        tsnode:parent():type() == "variable_declaration"
+      local parent_has_information = tsnode:parent():type() == "variable_declarator"
+        or tsnode:parent():type() == "variable_declaration"
 
       if parent_has_information then
         local info = get_node_information(tsnode:parent())
@@ -106,11 +112,10 @@ local function get_function_list_of_parent(parent)
     end
 
     -- these structures might include functions (arrow function, variable as function, classes, etc)
-    local is_simple_recursive_structure =
-      tsnode:type() == "export_statement" or
-      tsnode:type() == "variable_declarator" or
-      tsnode:type() == "variable_declaration" or
-      tsnode:type() == "lexical_declaration"
+    local is_simple_recursive_structure = tsnode:type() == "export_statement"
+      or tsnode:type() == "variable_declarator"
+      or tsnode:type() == "variable_declaration"
+      or tsnode:type() == "lexical_declaration"
 
     if is_simple_recursive_structure then
       local info = get_function_list_of_parent(tsnode)
@@ -121,9 +126,8 @@ local function get_function_list_of_parent(parent)
     end
 
     -- structure that most likely have multiple functions internally
-    local is_complex_recursive_structure =
-      tsnode:type() == "class_declaration" or
-      tsnode:type() == "namespace_declaration"
+    local is_complex_recursive_structure = tsnode:type() == "class_declaration"
+      or tsnode:type() == "namespace_declaration"
 
     if is_complex_recursive_structure then
       local structure_name_node = get_named_node(tsnode, "name")
@@ -150,6 +154,8 @@ end
 local function get_max_line_number_length(info)
   local max_line_number_length = 0
   for _, node_information in ipairs(info) do
+    -- diagnostic is incorrect - probably version mismatch
+    ---@diagnostic disable-next-line: param-type-mismatch
     local current_line_number_length = string.len(node_information.line_number)
 
     if current_line_number_length >= max_line_number_length then
@@ -178,7 +184,9 @@ M.get_current_functions = function()
   end
 
   -- sort content, it could have different order in some edge cases
-  table.sort(content, function(a, b) return a.line_number < b.line_number end)
+  table.sort(content, function(a, b)
+    return a.line_number < b.line_number
+  end)
 
   return content
 end
@@ -199,10 +207,8 @@ M.get_current_functions_formatted = function()
   -- every entry will be concatted into a string
   -- result: {"line_number:\t function", "123:\t foo", ...}
   for _, node_information in ipairs(output) do
-    local space_aligned_line_number =
-      string.format(line_number_formatting_string, node_information.line_number)
-    local concatted_string =
-      space_aligned_line_number .. ":\t" .. node_information.function_name
+    local space_aligned_line_number = string.format(line_number_formatting_string, node_information.line_number)
+    local concatted_string = space_aligned_line_number .. ":\t" .. node_information.function_name
 
     table.insert(res, concatted_string)
   end

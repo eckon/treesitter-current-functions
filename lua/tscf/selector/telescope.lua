@@ -1,8 +1,8 @@
-local finders = require "telescope.finders"
-local pickers = require "telescope.pickers"
-local config = require "telescope.config"
-local actions = require "telescope.actions"
-local state = require "telescope.actions.state"
+local finders = require("telescope.finders")
+local pickers = require("telescope.pickers")
+local config = require("telescope.config")
+local actions = require("telescope.actions")
+local state = require("telescope.actions.state")
 
 local M = {}
 
@@ -29,7 +29,6 @@ local function jump_to_selected_line(prompt_bufnr)
   vim.cmd("normal! zz_")
 end
 
-
 M.init = function()
   local output = require("tscf").get_current_functions_formatted()
 
@@ -44,18 +43,20 @@ M.init = function()
     return
   end
 
-  pickers.new({}, {
-    prompt_title = "Functions",
-    finder = finders.new_table({
-      results = output,
-    }),
-    sorter = config.values.generic_sorter({}),
-    attach_mappings = function(_, map)
-      map("i", "<CR>", jump_to_selected_line)
-      map("n", "<CR>", jump_to_selected_line)
-      return true
-    end
-  }):find()
+  pickers
+    .new({}, {
+      prompt_title = "Functions",
+      finder = finders.new_table({
+        results = output,
+      }),
+      sorter = config.values.generic_sorter({}),
+      attach_mappings = function(_, map)
+        map("i", "<CR>", jump_to_selected_line)
+        map("n", "<CR>", jump_to_selected_line)
+        return true
+      end,
+    })
+    :find()
 end
 
 return M
