@@ -3,18 +3,19 @@
 treesitter-current-functions (also `tscf`) is a neovim plugin that builds on top of treesitter to
 
 * show all functions or function-like structures in the current buffer
-* open a selection tool (`fzf`, `telescope`, etc.)
+* open a selection tool (`telescope`, `fzf`, etc.)
 
 to quickly jump to the wanted function location
 
 
 ## Example
+Both examples are outdated, but show what the tool will do in a general sense, please use the docs and not the gifs for information like `commands` etc.
 
-### fzf and telescope selector in vim, lua, php and js file (older command structure)
+### telescope and fzf selector in vim, lua, php and js file
 ![Example Usage of treesitter-current-functions](./tscf-example.gif)
 
-### fzf usage (older version)
-![Example Usage of treesitter-current-functions 2 (old)](./tscf-example2.gif)
+### fzf usage
+![Example Usage of treesitter-current-functions 2](./tscf-example2.gif)
 
 
 ## Disclaimer
@@ -36,8 +37,9 @@ The plugin was tested with neovim version 0.8.3 and up, but can possibly work wi
   * `Plug 'eckon/treesitter-current-functions'`
 * Install [Treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 * Install one Selection tool
+  * [telescope](https://github.com/nvim-telescope/telescope.nvim) (recommended)
+    * this will most likely be more supported as I use telescope currently
   * [fzf](https://github.com/junegunn/fzf.vim)
-  * [telescope](https://github.com/nvim-telescope/telescope.nvim)
 
 An example (via [lazy](https://github.com/folke/lazy.nvim)) could look something like:
 ```lua
