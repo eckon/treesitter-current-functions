@@ -13,5 +13,10 @@ ls "$example_path" | grep -E "^example\..{0,3}\$" | while read -r i; do
   # uncomment to update expected output
   # run "$example_path/$i" &> "$example_path/$i.expected"
   run "$example_path/$i" &> "$example_path/$i.expected.actual"
-  diff "$example_path/$i.expected" "$example_path/$i.expected.actual"
+
+  # different neovim versions can produce different whitespaces
+  # so ignore all kinds of whitespaces via diff, as this does not matter
+  diff -Bbw \
+    "$example_path/$i.expected" \
+    "$example_path/$i.expected.actual"
 done

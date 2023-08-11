@@ -116,6 +116,9 @@ local function get_function_list_of_parent(parent)
       or tsnode:type() == "variable_declarator"
       or tsnode:type() == "variable_declaration"
       or tsnode:type() == "lexical_declaration"
+      or tsnode:type() == "preproc_ifdef"
+      or tsnode:type() == "preproc_if"
+      or tsnode:type() == "preproc_else"
 
     if is_simple_recursive_structure then
       local info = get_function_list_of_parent(tsnode)

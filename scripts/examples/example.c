@@ -1,4 +1,15 @@
 #include <stdio.h>
+
+#ifdef COMPILER_OPTION
+void foo() {}
+#endif
+
+#if MAGIC_NUMBER > 1
+void bar() {}
+#else
+void baz() {}
+#endif
+
 struct student
 {
    char name[50];
