@@ -1,7 +1,16 @@
 { {
-    function_name = "main",
+    function_name = "foo",
+    line_number = 4
+  }, {
+    function_name = "bar",
     line_number = 8
   }, {
+    function_name = "baz",
+    line_number = 10
+  }, {
+    function_name = "main",
+    line_number = 19
+  }, {
     function_name = "sub_8039880",
-    line_number = 11
+    line_number = 22
   } }
