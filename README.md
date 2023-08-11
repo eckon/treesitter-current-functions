@@ -3,19 +3,17 @@
 treesitter-current-functions (also `tscf`) is a neovim plugin that builds on top of treesitter to
 
 * show all functions or function-like structures in the current buffer
+  * while trying to be language agnostic
 * open a selection tool (`telescope`, `fzf`, etc.)
 
 to quickly jump to the wanted function location
 
 
 ## Example
-Both examples are outdated, but show what the tool will do in a general sense, please use the docs and not the gifs for information like `commands` etc.
+Examples might be outdated, please reference `docs` for more information like `commands` etc.
 
-### telescope and fzf selector in vim, lua, php and js file
-![Example Usage of treesitter-current-functions](./tscf-example.gif)
-
-### fzf usage
-![Example Usage of treesitter-current-functions 2](./tscf-example2.gif)
+### telescope with code preview
+![Example Usage of tscf with preview in telescope](https://user-images.githubusercontent.com/40291209/260157636-13649dd4-2155-4c32-bf2a-bcaf56387426.gif)
 
 
 ## Disclaimer
