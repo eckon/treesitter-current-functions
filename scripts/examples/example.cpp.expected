@@ -1,19 +1,34 @@
 { {
-    function_name = "test_1_out",
-    line_number = 20
-  }, {
-    function_name = "~test_1_out",
+    function_name = "test_1_out::test_1_out",
     line_number = 21
   }, {
-    function_name = "get_ab",
+    function_name = "test_1_out::~test_1_out",
     line_number = 22
   }, {
+    function_name = "test_1_out::get_ab",
+    line_number = 23
+  }, {
     function_name = "get_test_1_out_inst_reg",
-    line_number = 24
+    line_number = 25
   }, {
     function_name = "get_test_1_out_inst_ptr",
-    line_number = 27
+    line_number = 28
   }, {
     function_name = "get_test_1_out_inst_ref",
-    line_number = 30
+    line_number = 31
+  }, {
+    function_name = "test_2_out<T>::test_2_out",
+    line_number = 52
+  }, {
+    function_name = "test_2_out<T>::get_ab",
+    line_number = 53
+  }, {
+    function_name = "get_test_2_out_inst_reg",
+    line_number = 55
+  }, {
+    function_name = "get_test_2_out_inst_ptr",
+    line_number = 58
+  }, {
+    function_name = "get_test_2_out_inst_ref",
+    line_number = 61
   } }
