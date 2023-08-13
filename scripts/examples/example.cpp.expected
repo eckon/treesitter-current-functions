@@ -31,4 +31,10 @@
   }, {
     function_name = "get_test_2_out_inst_ref",
     line_number = 61
+  }, {
+    function_name = "operator+",
+    line_number = 74
+  }, {
+    function_name = "operator-",
+    line_number = 78
   } }

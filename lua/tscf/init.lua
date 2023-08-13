@@ -33,8 +33,15 @@ local function get_named_node(parent, named)
       return node
     end
 
+    local is_cpp = is_file_type('cpp')
+
+    -- Edge case for c++ operator overloads
+    if node:type() == "operator_name" and is_cpp then
+      return node
+    end
+
     -- Edge case for c++ reference return types
-    if node:type() == "reference_declarator" then
+    if node:type() == "reference_declarator" and is_cpp then
       for child, _ in node:iter_children() do
         if child:type() == "function_declarator" then
           return get_named_node(child, "identifier")

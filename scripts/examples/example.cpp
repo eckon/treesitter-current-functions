@@ -34,7 +34,7 @@ test_1_out &get_test_1_out_inst_ref() {
 
 
 /*
- * Test 2: Templated functions both inside and outside of class definitions.
+ * Test 2: Templated functions outside of class definitions.
  */
 
 template <typename T>
@@ -61,6 +61,25 @@ test_2_out<std::uint64_t> *get_test_2_out_inst_ptr() {
 test_2_out<std::uint64_t> &get_test_2_out_inst_ref() {
     return *test_2_out_inst;
 }
+
+
+/*
+ * Test 3: Operator overloading.
+ */
+
+struct test_3_out {
+    std::uint64_t x, y, z;
+};
+
+test_3_out operator+(const test_3_out &a, const test_3_out &b) {
+    return { a.x + b.x, a.y + b.y, a.z + b.z };
+}
+
+test_3_out operator-(const test_3_out &a, const test_3_out &b) {
+    return { a.x - b.x, a.y - b.y, a.z - b.z };
+}
+
+
 
 /* TODO: Functions declared inside a class as follows still don't appear
 
