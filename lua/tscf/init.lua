@@ -33,22 +33,6 @@ local function get_named_node(parent, named)
       return node
     end
 
-    local is_cpp = is_file_type('cpp')
-
-    -- Edge case for c++ operator overloads
-    if node:type() == "operator_name" and is_cpp then
-      return node
-    end
-
-    -- Edge case for c++ reference return types
-    if node:type() == "reference_declarator" and is_cpp then
-      for child, _ in node:iter_children() do
-        if child:type() == "function_declarator" then
-          return get_named_node(child, "identifier")
-        end
-      end
-    end
-
     -- some languages have deeply nested structures
     -- in "declarator" parts can exist as well
     if name == "declarator" then
@@ -67,13 +51,49 @@ local function get_named_node(parent, named)
   end
 end
 
+---Return node of "parent" that has given "typed" as type in nested node
+---@param parent node
+---@param typed string
+---@return node|nil
+local function get_typed_node(parent, typed)
+  for node, name in parent:iter_children() do
+    if node:type() == typed then
+      return node
+    end
+
+    -- some languages have deeply nested structures
+    -- in "declarator" parts can exist as well
+    if name == "declarator" then
+      local typed_node = get_typed_node(node, typed)
+      if typed_node ~= nil then
+        return typed_node
+      end
+
+      return nil
+    end
+  end
+end
+
 ---Get node information and construct a useable table out of it
 ---@param node node
 ---@return NodeInformation|nil
 local function get_node_information(node)
+
   -- can be that some nodes have a not yet supported structure
   -- instead of crashing just ignore the node
   local function_name_node = get_named_node(node, "name")
+
+  -- cpp has som edge cases where a "name" named node won't be found
+  if is_file_type('cpp') and function_name_node == nil then
+    -- Operator overloads
+    function_name_node = get_typed_node(node, "operator_name")
+    if function_name_node == nil then
+      -- Reference return types
+      local fd_node = get_typed_node(node, "function_declarator")
+      function_name_node = get_named_node(fd_node, "identifier")
+    end
+  end
+
   if function_name_node == nil then
     return nil
   end
