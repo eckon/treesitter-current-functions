@@ -1,7 +1,8 @@
+#include <cstdint>
 #include <utility>
 
 /*
- * Test 1: Basics, method definitions both inside and outside the class definition. Also testing basic
+ * Test 1: Basics, method definitions outside the class definition. Also testing basic
  *          functions with primitive, pointer, and reference return types.
  */
 
@@ -30,4 +31,42 @@ test_1_out *get_test_1_out_inst_ptr() {
 test_1_out &get_test_1_out_inst_ref() {
    return *test_1_out_inst;
 }
+
+
+/*
+ * Test 2: Templated functions both inside and outside of class definitions.
+ */
+
+template <typename T>
+class test_2_out {
+
+private:
+    T a, b;
+
+public:
+    std::pair<T, T> get_ab() const;
+    test_2_out(T _a, T _b);
+};
+test_2_out<std::uint64_t> *test_2_out_inst = nullptr;
+
+template <typename T> test_2_out<T>::test_2_out(T _a, T _b) { a = _a; b = _b; }
+template <typename T> std::pair<T, T> test_2_out<T>::get_ab() const { return { a, b }; }
+
+test_2_out<std::uint64_t> get_test_2_out_inst_reg() {
+    return *test_2_out_inst;
+}
+test_2_out<std::uint64_t> *get_test_2_out_inst_ptr() {
+    return test_2_out_inst;
+}
+test_2_out<std::uint64_t> &get_test_2_out_inst_ref() {
+    return *test_2_out_inst;
+}
+
+/* TODO: Functions declared inside a class as follows still don't appear
+
+   class a {
+       void foo() { ... }
+   };
+
+*/
 

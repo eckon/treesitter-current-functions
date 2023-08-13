@@ -3,6 +3,15 @@ local parsers = require("nvim-treesitter.parsers")
 
 local M = {}
 
+---To check if a specific file type is opened in the current buffer
+---@param filetype string
+---@return boolean
+local function is_file_type(filetype)
+  local bufnr = vim.fn.bufnr()
+  local ft = vim.fn.getbufvar(bufnr, '&filetype')
+  return filetype == ft
+end
+
 ---Wrapper to get treesitter root parser
 ---@return node|nil
 local function get_root()
@@ -63,6 +72,22 @@ local function get_node_information(node)
   end
 
   local function_name = vim.treesitter.get_node_text(function_name_node, 0)
+  local class_name = ""
+
+  -- for C++ methods declared in a class or struct, the name of the class or
+  -- struct will be shown in the display as it is a possibility the function
+  -- names are identical
+  local class_name_node = nil
+  if is_file_type('cpp') then
+    class_name_node = get_named_node(node, "scope")
+  end
+  if class_name_node ~= nil then
+    local is_class_name = class_name_node:type() == "namespace_identifier"
+        or class_name_node:type() == "template_type"
+    if is_class_name then
+        class_name = vim.treesitter.get_node_text(class_name_node, 0) .. '::'
+    end
+  end
 
   -- as fallback in case named node does not exist
   local line_content = vim.treesitter.get_node_text(node, 0)
@@ -77,7 +102,7 @@ local function get_node_information(node)
   ---@class NodeInformation
   ---@field line_number number
   ---@field function_name string
-  return { line_number = line_number, function_name = function_name }
+  return { line_number = line_number, function_name = class_name .. function_name }
 end
 
 ---Get all functions of the given "parent" node concatted into a table
@@ -125,6 +150,7 @@ local function get_function_list_of_parent(parent)
       or tsnode:type() == "variable_declarator"
       or tsnode:type() == "variable_declaration"
       or tsnode:type() == "lexical_declaration"
+      or tsnode:type() == "template_declaration"
       or tsnode:type() == "preproc_ifdef"
       or tsnode:type() == "preproc_if"
       or tsnode:type() == "preproc_else"
