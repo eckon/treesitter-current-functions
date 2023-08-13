@@ -24,6 +24,15 @@ local function get_named_node(parent, named)
       return node
     end
 
+    -- Edge case for c++ reference return types
+    if node:type() == "reference_declarator" then
+      for child, _ in node:iter_children() do
+        if child:type() == "function_declarator" then
+          return get_named_node(child, "identifier")
+        end
+      end
+    end
+
     -- some languages have deeply nested structures
     -- in "declarator" parts can exist as well
     if name == "declarator" then
