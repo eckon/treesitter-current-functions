@@ -3,15 +3,6 @@ local parsers = require("nvim-treesitter.parsers")
 
 local M = {}
 
----To check if a specific file type is opened in the current buffer
----@param filetype string
----@return boolean
-local function is_file_type(filetype)
-  local bufnr = vim.fn.bufnr()
-  local ft = vim.fn.getbufvar(bufnr, '&filetype')
-  return filetype == ft
-end
-
 ---Wrapper to get treesitter root parser
 ---@return node|nil
 local function get_root()
@@ -78,20 +69,20 @@ end
 ---@param node node
 ---@return NodeInformation|nil
 local function get_node_information(node)
-
   -- can be that some nodes have a not yet supported structure
   -- instead of crashing just ignore the node
   local function_name_node = get_named_node(node, "name")
 
-  -- cpp has som edge cases where a "name" named node won't be found
-  if is_file_type('cpp') and function_name_node == nil then
+  -- for example cpp has som edge cases where a "name" named node won't be found
+  if function_name_node == nil then
     -- Operator overloads
     function_name_node = get_typed_node(node, "operator_name")
-    if function_name_node == nil then
-      -- Reference return types
-      local fd_node = get_typed_node(node, "function_declarator")
-      function_name_node = get_named_node(fd_node, "identifier")
-    end
+  end
+
+  if function_name_node == nil then
+    -- Reference return types
+    local fd_node = get_typed_node(node, "function_declarator")
+    function_name_node = get_named_node(fd_node, "identifier")
   end
 
   if function_name_node == nil then
@@ -99,23 +90,6 @@ local function get_node_information(node)
   end
 
   local function_name = vim.treesitter.get_node_text(function_name_node, 0)
-  local class_name = ""
-
-  -- for C++ methods declared in a class or struct, the name of the class or
-  -- struct will be shown in the display as it is a possibility the function
-  -- names are identical
-  local class_name_node = nil
-  if is_file_type('cpp') then
-    class_name_node = get_named_node(node, "scope")
-  end
-  if class_name_node ~= nil then
-    local is_class_name = class_name_node:type() == "namespace_identifier"
-        or class_name_node:type() == "template_type"
-    if is_class_name then
-        class_name = vim.treesitter.get_node_text(class_name_node, 0) .. '::'
-    end
-  end
-
   -- as fallback in case named node does not exist
   local line_content = vim.treesitter.get_node_text(node, 0)
 
@@ -129,7 +103,25 @@ local function get_node_information(node)
   ---@class NodeInformation
   ---@field line_number number
   ---@field function_name string
-  return { line_number = line_number, function_name = class_name .. function_name }
+  return { line_number = line_number, function_name = function_name }
+end
+
+---Some languages (e.g. cpp) might want more information about the scope of a function
+---request them of a node and use this to append the node information
+---@param node any
+---@return string|nil
+local function get_scope_information_of_node(node)
+  local class_scope_node = get_named_node(node, "scope")
+  if class_scope_node ~= nil then
+    local is_class_name = class_scope_node:type() == "namespace_identifier"
+      or class_scope_node:type() == "template_type"
+
+    if is_class_name then
+      return vim.treesitter.get_node_text(class_scope_node, 0) .. "::"
+    end
+  end
+
+  return nil
 end
 
 ---Get all functions of the given "parent" node concatted into a table
@@ -154,6 +146,12 @@ local function get_function_list_of_parent(parent)
 
     if is_simple_function then
       local info = get_node_information(tsnode)
+
+      -- enhance function name with scope information
+      local node_scope = get_scope_information_of_node(tsnode)
+      if node_scope ~= nil and info ~= nil then
+        info.function_name = node_scope .. info.function_name
+      end
       table.insert(content, info)
     end
 
@@ -196,7 +194,11 @@ local function get_function_list_of_parent(parent)
 
     if is_complex_recursive_structure then
       local structure_name_node = get_named_node(tsnode, "name")
-      local structure_name = vim.treesitter.get_node_text(structure_name_node, 0)
+
+      local structure_name = nil
+      if structure_name_node ~= nil then
+        structure_name = vim.treesitter.get_node_text(structure_name_node, 0)
+      end
 
       -- body this might contain functions (methods)
       local body = get_named_node(tsnode, "body")
@@ -204,7 +206,10 @@ local function get_function_list_of_parent(parent)
 
       for _, node_information in ipairs(info) do
         -- append structure name infront of methods (or other structures)
-        node_information.function_name = structure_name .. " > " .. node_information.function_name
+        if structure_name ~= nil then
+          node_information.function_name = structure_name .. " > " .. node_information.function_name
+        end
+
         table.insert(content, node_information)
       end
     end
