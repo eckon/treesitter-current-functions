@@ -37,4 +37,16 @@
   }, {
     function_name = "operator-",
     line_number = 78
+  }, {
+    function_name = "test_4::test_4b::foo",
+    line_number = 96
+  }, {
+    function_name = "test_4::foo_a",
+    line_number = 98
+  }, {
+    function_name = "test_4::test_4a::foo",
+    line_number = 102
+  }, {
+    function_name = "test_4::foo_b",
+    line_number = 103
   } }

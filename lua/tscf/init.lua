@@ -191,6 +191,7 @@ local function get_function_list_of_parent(parent)
     -- structure that most likely have multiple functions internally
     local is_complex_recursive_structure = tsnode:type() == "class_declaration"
       or tsnode:type() == "namespace_declaration"
+      or tsnode:type() == "namespace_definition"
 
     if is_complex_recursive_structure then
       local structure_name_node = get_named_node(tsnode, "name")
@@ -204,10 +205,15 @@ local function get_function_list_of_parent(parent)
       local body = get_named_node(tsnode, "body")
       local info = get_function_list_of_parent(body)
 
+      local separator = " > "
+      if tsnode:type() == "namespace_definition" then
+        separator = "::"
+      end
+
       for _, node_information in ipairs(info) do
         -- append structure name infront of methods (or other structures)
         if structure_name ~= nil then
-          node_information.function_name = structure_name .. " > " .. node_information.function_name
+          node_information.function_name = structure_name .. separator .. node_information.function_name
         end
 
         table.insert(content, node_information)
