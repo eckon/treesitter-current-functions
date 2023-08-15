@@ -80,6 +80,28 @@ test_3_out operator-(const test_3_out &a, const test_3_out &b) {
 }
 
 
+/*
+ * Test 4: Namespaces
+ */
+
+namespace test_4 {
+
+    struct test_4a {
+        void foo();
+    };
+
+    struct test_4b {
+        void foo();
+    };
+    void test_4b::foo() { /* ... */ }
+
+    void foo_a() { /* ... */ }
+    void foo_b();
+}
+
+void test_4::test_4a::foo() { /* ... */ }
+void test_4::foo_b()        { /* ... */ }
+
 
 /* TODO: Functions declared inside a class as follows still don't appear
 
