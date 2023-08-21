@@ -143,6 +143,7 @@ local function get_function_list_of_parent(parent)
       or tsnode:type() == "method_definition"
       or tsnode:type() == "method_declaration"
       or tsnode:type() == "constructor_declaration"
+      or tsnode:type() == "function_item"
 
     if is_simple_function then
       local info = get_node_information(tsnode)
@@ -192,9 +193,13 @@ local function get_function_list_of_parent(parent)
     local is_complex_recursive_structure = tsnode:type() == "class_declaration"
       or tsnode:type() == "namespace_declaration"
       or tsnode:type() == "namespace_definition"
+      or tsnode:type() == "impl_item"
 
     if is_complex_recursive_structure then
       local structure_name_node = get_named_node(tsnode, "name")
+      if structure_name_node == nil then
+        structure_name_node = get_typed_node(tsnode, "type_identifier")
+      end
 
       local structure_name = nil
       if structure_name_node ~= nil then
@@ -206,7 +211,7 @@ local function get_function_list_of_parent(parent)
       local info = get_function_list_of_parent(body)
 
       local separator = " > "
-      if tsnode:type() == "namespace_definition" then
+      if tsnode:type() == "namespace_definition" or tsnode:type() == "impl_item" then
         separator = "::"
       end
 
