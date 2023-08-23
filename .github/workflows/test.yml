@@ -21,8 +21,21 @@ jobs:
           tar -zxf nvim-linux64.tar.gz
           sudo ln -s $(pwd)/nvim-linux64/bin/nvim /usr/local/bin
 
-      # maybe later add some caching (see https://github.com/nvim-telescope/telescope.nvim/blob/master/.github/workflows/ci.yml)
+      - name: Create file with year and week day to cache for a week
+        run: |
+          date +%Y-%U > current-year-week
+          cat current-year-week
+
+      - name: Try getting treesitter parser cache of this week
+        id: treesitter-cache
+        uses: actions/cache@v3
+        with:
+          path: nvim-treesitter
+          key: treesitter-hash-${{ hashFiles('current-year-week') }}
+
+
       - name: Install treesitter parser
+        if: ${{ steps.treesitter-cache.outputs.cache-hit != 'true' }}
         run: |
           git clone https://github.com/nvim-treesitter/nvim-treesitter
           nvim --headless --noplugin -u scripts/minimal_init.lua +"TSInstallSync all" -c "q"
