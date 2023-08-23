@@ -1,33 +1,45 @@
-
 #[allow(dead_code)]
-struct Test1 {
+struct Example1 {
     foo: usize
 }
-impl Test1 {
+
+impl Example1 {
     fn new() -> Self {
-        Test1 { foo: 0 }
+        Example1 { foo: 0 }
     }
 }
 
 #[allow(dead_code)]
-enum Test2 {
+enum Example2 {
     Item1,
     Item2,
     Item3,
 }
-impl Test2 {
+
+impl Example2 {
     fn index(&self) -> usize {
         match self {
-            Test2::Item1 => 0,
-            Test2::Item2 => 1,
-            Test2::Item3 => 2,
+            Example2::Item1 => 0,
+            Example2::Item2 => 1,
+            Example2::Item3 => 2,
         }
     }
 }
 
 #[allow(unused_variables)]
 fn main() {
-    let test1 = Test1::new();
-    let test2 = Test2::Item1;
+    let test1 = Example1::new();
+    let test2 = Example2::Item1;
     test2.index();
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_main() {
+        main();
+        assert_eq!("foo", "bar");
+    }
 }

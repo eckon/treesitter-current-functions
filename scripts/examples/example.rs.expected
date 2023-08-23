@@ -1,10 +1,13 @@
 { {
-    function_name = "Test1::new",
+    function_name = "Example1::new",
     line_number = 7
   }, {
-    function_name = "Test2::index",
-    line_number = 19
+    function_name = "Example2::index",
+    line_number = 20
   }, {
     function_name = "main",
-    line_number = 29
+    line_number = 30
+  }, {
+    function_name = "tests > test_main",
+    line_number = 41
   } }
