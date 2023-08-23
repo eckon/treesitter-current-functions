@@ -194,6 +194,7 @@ local function get_function_list_of_parent(parent)
       or tsnode:type() == "namespace_declaration"
       or tsnode:type() == "namespace_definition"
       or tsnode:type() == "impl_item"
+      or tsnode:type() == "mod_item"
 
     if is_complex_recursive_structure then
       local structure_name_node = get_named_node(tsnode, "name")
