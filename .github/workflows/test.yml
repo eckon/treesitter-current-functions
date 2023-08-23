@@ -25,7 +25,7 @@ jobs:
       - name: Install treesitter parser
         run: |
           git clone https://github.com/nvim-treesitter/nvim-treesitter
-          nvim --headless --noplugin -u scripts/minimal_init.lua +"TSInstallSync php javascript cpp c_sharp" -c "q"
+          nvim --headless --noplugin -u scripts/minimal_init.lua +"TSInstallSync all" -c "q"
 
       - name: Run Script for tests
         run: ./scripts/run_tests.sh
